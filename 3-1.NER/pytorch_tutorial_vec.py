@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Mar 27 16:54:53 2021
-
-@author: Admin
-"""
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import time
 
-torch.manual_seed(1)  # 最后的路径正确，但是分值无法稳定复现，原因不明
+torch.manual_seed(1)  # 可以复现官网的结果 https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html
 START_TAG, END_TAG = "<s>", "<e>"
-
 
 def log_sum_exp(smat):
     """
@@ -50,7 +42,6 @@ def log_sum_exp(smat):
     vmax = smat.max(dim=0, keepdim=True).values  # 每一列的最大数
     return (smat - vmax).exp().sum(axis=0, keepdim=True).log() + vmax
 
-
 class BiLSTM_CRF(nn.Module):
     def __init__(self, tag2ix, word2ix, embedding_dim, hidden_dim):
         """
@@ -72,12 +63,18 @@ class BiLSTM_CRF(nn.Module):
 
         self.transitions.data[tag2ix[START_TAG], :] = self.transitions.data[:, tag2ix[END_TAG]] = -10000
 
+        self.hidden = self.init_hidden()
+
     def neg_log_likelihood(self, words, tags):  # 求一对 <sentence, tags> 在当前参数下的负对数似然，作为loss
         frames = self._get_lstm_features(words)  # emission score at each frame
         gold_score = self._score_sentence(frames, tags)  # 正确路径的分数
         forward_score = self._forward_alg(frames)  # 所有路径的分数和
         # -(正确路径的分数 - 所有路径的分数和）;注意取负号 -log(a/b) = -[log(a) - log(b)] = log(b) - log(a)
         return forward_score - gold_score
+
+    def init_hidden(self):
+        return (torch.randn(2, 1, self.hidden_dim // 2),
+                torch.randn(2, 1, self.hidden_dim // 2))
 
     def _get_lstm_features(self, words):  # 求出每一帧对应的隐向量
         # LSTM输入形状(seq_len, batch=1, input_size); 教学演示 batch size 为1
@@ -86,10 +83,10 @@ class BiLSTM_CRF(nn.Module):
         #print(embeds)
         
         # 随机初始化LSTM的隐状态H
-        hidden = torch.randn(2, 1, self.hidden_dim // 2), torch.randn(2, 1, self.hidden_dim // 2)
+        self.hidden = self.init_hidden()
         #print('\n------------hidden---------')
         #print(hidden)
-        lstm_out, _hidden = self.lstm(embeds, hidden)
+        lstm_out, _hidden = self.lstm(embeds, self.hidden)
         #print(lstm_out)
         return self.hidden2tag(lstm_out.squeeze(1))  # 把LSTM输出的隐状态张量去掉batch维，然后降维到tag空间
 
@@ -137,8 +134,7 @@ class BiLSTM_CRF(nn.Module):
         
         val, idx = torch.max(smat, 0)
         best_tag_id = idx.item()
-        
-        
+              
         #best_tag_id = smat.flatten().argmax().item()
         best_path = [best_tag_id]
         for bptrs_t in reversed(backtrace[1:]):  # 从[1:]开始，去掉开头的 START_TAG
@@ -148,12 +144,11 @@ class BiLSTM_CRF(nn.Module):
 
     def forward(self, words):  # 模型inference逻辑
         lstm_feats = self._get_lstm_features(words)  # 求出每一帧的发射矩阵
-        print(lstm_feats)
+        #print(lstm_feats)
         return self._viterbi_decode(lstm_feats)  # 采用已经训好的CRF层, 做维特比解码, 得到最优路径及其分数
 
     def _to_tensor(self, words, to_ix):  # 将words/tags序列数值化，即: 映射为相应下标序列张量
         return torch.tensor([to_ix[w] for w in words], dtype=torch.long)
-
 
 if __name__ == "__main__":
     training_data = [("the wall street journal reported today that apple corporation made money".split(),
@@ -171,17 +166,14 @@ if __name__ == "__main__":
                        embedding_dim=5, hidden_dim=4)
 
     with torch.no_grad():  # 训练前, 观察一下预测结果(应该是随机或者全零参数导致的结果)
-        print(model(training_data[1][0]))
+        print(model(training_data[0][0]))
 
-#    optimizer = optim.SGD(model.parameters(), lr=0.01, weight_decay=1e-4)
-#    start = time.time()
-#    for epoch in range(300):  # 不要试图改成100, 在这个教学例子数据集上会欠拟合……
-#        for words, tags in training_data:
-#            model.zero_grad()  # PyTorch默认会累积梯度; 而我们需要每条样本单独算梯度
-#            model.neg_log_likelihood(words, tags).backward()  # 前向求出负对数似然(loss); 然后回传梯度
-#            optimizer.step()  # 梯度下降，更新参数
-#    end = time.time()
-#    print(f'用时:{end-start}')
-#    # 训练后的预测结果(有意义的结果，与label一致); 打印类似 (18.722553253173828, [0, 1, 1, 1, 2, 2, 2, 0, 1, 2, 2])
-#    with torch.no_grad():  # 这里用了第一条训练数据(而非专门的测试数据)，仅作教学演示
-#        print(model(training_data[0][0]))
+    optimizer = optim.SGD(model.parameters(), lr=0.01, weight_decay=1e-4)
+    for epoch in range(300):  # 不要试图改成100, 在这个教学例子数据集上会欠拟合……
+        for words, tags in training_data:
+            model.zero_grad()  # PyTorch默认会累积梯度; 而我们需要每条样本单独算梯度
+            model.neg_log_likelihood(words, tags).backward()  # 前向求出负对数似然(loss); 然后回传梯度
+            optimizer.step()  # 梯度下降，更新参数
+    # 训练后的预测结果(有意义的结果，与label一致); 打印类似 (18.722553253173828, [0, 1, 1, 1, 2, 2, 2, 0, 1, 2, 2])
+    with torch.no_grad():  # 这里用了第一条训练数据(而非专门的测试数据)，仅作教学演示
+        print(model(training_data[0][0]))
