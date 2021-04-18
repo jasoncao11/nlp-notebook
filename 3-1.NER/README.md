@@ -4,7 +4,7 @@ A PyTorch implementation of batch support bidirectional LSTM-CRF.
 
 ## Usage
 
-Training/Test data should be formatted as shown in data directory:
+Training/Test data should be formatted as shown in data directory.
 
 ### To train:
 
@@ -158,4 +158,4 @@ f1-score = 0.7840199750312109
 
 2. load_data.py implements a data generator for producing the tensor of batch size.
 
-3. pytorch_tutorial_vec.py is the vectorized version of the pytorch BiLSTM-CRF tutorial.
+3. pytorch_tutorial_vec.py is the vectorized version of the pytorch BiLSTM-CRF tutorial, modified based on [https://zhuanlan.zhihu.com/p/97676647](https://zhuanlan.zhihu.com/p/97676647).
