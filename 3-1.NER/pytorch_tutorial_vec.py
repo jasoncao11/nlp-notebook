@@ -165,15 +165,14 @@ if __name__ == "__main__":
                        word2ix=word_to_ix,
                        embedding_dim=5, hidden_dim=4)
 
-    with torch.no_grad():  # 训练前, 观察一下预测结果(应该是随机或者全零参数导致的结果)
+    with torch.no_grad():
         print(model(training_data[0][0]))
-
     optimizer = optim.SGD(model.parameters(), lr=0.01, weight_decay=1e-4)
-    for epoch in range(300):  # 不要试图改成100, 在这个教学例子数据集上会欠拟合……
+    for epoch in range(300):
         for words, tags in training_data:
             model.zero_grad()  # PyTorch默认会累积梯度; 而我们需要每条样本单独算梯度
             model.neg_log_likelihood(words, tags).backward()  # 前向求出负对数似然(loss); 然后回传梯度
             optimizer.step()  # 梯度下降，更新参数
-    # 训练后的预测结果(有意义的结果，与label一致); 打印类似 (18.722553253173828, [0, 1, 1, 1, 2, 2, 2, 0, 1, 2, 2])
-    with torch.no_grad():  # 这里用了第一条训练数据(而非专门的测试数据)，仅作教学演示
+    # 训练后的预测结果(有意义的结果，与label一致); 
+    with torch.no_grad():
         print(model(training_data[0][0]))
