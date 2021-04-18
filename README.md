@@ -15,7 +15,7 @@ optuna 2.6.0
 
 - 1-1. [Word2Vec(Skip-gram)](1-1.Word2Vec)
 
-#### 2. Text Classification(每个模型内部使用optuna进行调参) 
+#### 2. Text Classification (每个模型内部使用[optuna](https://optuna.org/)进行调参) 
 
 - 2-1. [TextCNN](2-1.TextCNN)
 - 2-2. [FastText](2-2.FastText)
@@ -35,6 +35,8 @@ optuna 2.6.0
 测试集|6300
 
 #### 3-1. [BILSTM_CRF_NER](3-1.NER)
+
+数据集在 NER/data 文件夹内
 
 #### 4-1. [Transformer pytorch implementation step by step](4-1.Transformer)
 
