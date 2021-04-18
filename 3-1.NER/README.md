@@ -4,7 +4,7 @@ A PyTorch implementation of batch support bidirectional LSTM-CRF.
 
 ## Usage
 
-Training/Test data should be formatted as shown in data directory:
+Training/Test data should be formatted as shown in data directory.
 
 ### To train:
 
