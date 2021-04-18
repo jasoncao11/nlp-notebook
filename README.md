@@ -34,7 +34,13 @@ optuna 2.6.0
 验证集|7000
 测试集|6300
 
-#### 3. [BILSTM_CRF_NER](3-1.NER)
+#### 3-1. [BILSTM_CRF_NER](3-1.NER)
+
+#### 4-1. [Transformer pytorch implementation step by step](4-1.Transformer)
+
+- Reference
+- https://wmathor.com/index.php/archives/1455/
+- http://nlp.seas.harvard.edu/2018/04/03/attention.html
 
 ## 对应论文
 
