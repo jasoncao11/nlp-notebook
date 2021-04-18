@@ -4,7 +4,10 @@ Pytorch implementation of skipgram model with negative sampling.
 
 ## Concept of word2vec
 
-[This article well explained the basic knowledge about word2vec, it's highly recommended to read before coding!](https://jalammar.github.io/illustrated-word2vec/)
+- [https://jalammar.github.io/illustrated-word2vec/](https://jalammar.github.io/illustrated-word2vec/)
+- [https://wmathor.com/index.php/archives/1430/](https://wmathor.com/index.php/archives/1430/)
+
+![w2c](../images/w2c.PNG)
 
 ## Supported features
 
