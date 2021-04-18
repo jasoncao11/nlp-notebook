@@ -34,6 +34,8 @@ optuna 2.6.0
 验证集|7000
 测试集|6300
 
+#### 3. [BILSTM_CRF_NER](3-1.NER)
+
 ## 对应论文
 
 [1] Convolutional Neural Networks for Sentence Classification
