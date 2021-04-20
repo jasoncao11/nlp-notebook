@@ -1,4 +1,9 @@
-# XGBOOST for classification
+# XGBoost for classification
+
+**如图所示，XGBoost 的损失函数是一个带有正则项的二阶泰勒展开式，**[点击观看完整视频](https://www.youtube.com/watch?v=OtD8wVaFm6E)。
+
+![xg1](../images/xg1.jpg)
+![xg2](../images/xg2.jpg)
 
 ```
 python train_eval.py
