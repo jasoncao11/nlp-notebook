@@ -4,8 +4,9 @@ import torch
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn import metrics
 from model import TextRCNN_Bert
-from load_data import traindataloader
+from load_data import traindataloader, valdataloader
 from transformers import AdamW
 from transformers import get_linear_schedule_with_warmup
 from tqdm import tqdm
@@ -50,6 +51,22 @@ for epoch in range(EPOCHS):
     loss_vals.append(np.mean(epoch_loss))    
 end = time.time()
 print(f'Training costs:{end-start} seconds')
-
-torch.save(model.state_dict(), "model.pth") 
 my_plot(np.linspace(1, EPOCHS, EPOCHS).astype(int), loss_vals)
+
+#torch.save(model.state_dict(), "model.pth")
+#model = TextRCNN_Bert(BERT_PATH, CLS)
+#model.load_state_dict(torch.load("model.pth"))
+#model.to(device)
+
+model.eval()
+predict_all = np.array([], dtype=int)
+labels_all = np.array([], dtype=int)        
+for tokens_ids, mask, label in valdataloader:
+    tokens_ids, mask, label = tokens_ids.to(device), mask.to(device), label.to(device)
+    pred = model(tokens_ids, mask)
+    pred = torch.max(pred.data, 1)[1].cpu().numpy()
+    predict_all = np.append(predict_all, pred)   
+    truth = label.cpu().numpy()
+    labels_all = np.append(labels_all, truth)    
+acc = metrics.accuracy_score(labels_all, predict_all)
+print(f'accuracy on dev is {acc}')  
