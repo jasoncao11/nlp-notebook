@@ -1,6 +1,12 @@
 # Pytorch implementation of FastText
 
+## 1. [Hierarchical softmax 简介](https://blog.csdn.net/kingsonyoung/article/details/90757879)
+![hierarchical_softmax](../images/hierarchical_softmax.png)
+
+## 2. FastText 结构
 ![fasttext](../images/fastText.jpeg)
+
+注：代码中考虑unigram,bigram,trigram特征，模型有三层：输入层、隐含层、输出层，并未实现Hierarchical Softmax。
 
 ```
 python train_eval.py
