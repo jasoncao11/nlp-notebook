@@ -16,7 +16,7 @@ transformers 3.0.2
 
 - 1-1. [Word2Vec(Skip-gram)](1-1.Word2Vec)
 
-#### 2. Text Classification (每个模型内部使用[optuna](https://optuna.org/)进行调参)，在目前所实验的所有模型当中，TextRCNN_Bert 在验证集上的准确率得分最高。
+#### 2. Text Classification (每个模型内部使用[optuna](https://optuna.org/)进行调参)，目前实验的所有模型当中，TextRCNN_Bert 在验证集上的准确率得分最高。
 
 - 2-1. [TextCNN](2-1.TextCNN)
 - 2-2. [FastText](2-2.FastText)
