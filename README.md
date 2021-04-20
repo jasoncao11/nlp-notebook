@@ -42,10 +42,6 @@ transformers 3.0.2
 
 #### 4-1. [Transformer pytorch implementation step by step](4-1.Transformer)
 
-- Reference
-- https://wmathor.com/index.php/archives/1455/
-- http://nlp.seas.harvard.edu/2018/04/03/attention.html
-
 ## 对应论文
 
 [1] Convolutional Neural Networks for Sentence Classification
