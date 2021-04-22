@@ -11,11 +11,7 @@ from load_data import train_iter, val_iter, id2vocab
 
 EPOCHS = 10
 CLS = 2
-
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
-    print('Use cuda')
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 def objective(trial):
 
@@ -41,15 +37,16 @@ def objective(trial):
 
         model.eval()
         predict_all = np.array([], dtype=int)
-        labels_all = np.array([], dtype=int)        
-        for batch in val_iter:
-            text_idx_batch, label_idx_batch = batch.text.t_().to(device), batch.label
-            pred = model(text_idx_batch)
-            pred = torch.max(pred.data, 1)[1].cpu().numpy()
-            predict_all = np.append(predict_all, pred)
-            
-            truth = label_idx_batch.cpu().numpy()
-            labels_all = np.append(labels_all, truth)            
+        labels_all = np.array([], dtype=int)
+        with torch.no_grad():        
+            for batch in val_iter:
+                text_idx_batch, label_idx_batch = batch.text.t_().to(device), batch.label
+                pred = model(text_idx_batch)
+                pred = torch.max(pred.data, 1)[1].cpu().numpy()
+                predict_all = np.append(predict_all, pred)
+                
+                truth = label_idx_batch.cpu().numpy()
+                labels_all = np.append(labels_all, truth)            
             
         acc = metrics.accuracy_score(labels_all, predict_all)
         
