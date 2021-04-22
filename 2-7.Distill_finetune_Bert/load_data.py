@@ -7,8 +7,8 @@ from transformers import BertTokenizer
 TRAIN_DATA_PATH = '../data/train.tsv'
 DEV_DATA_PATH = '../data/dev.tsv'
 TOKENIZER_PATH = './bert-base-chinese'
-PAD_SIZE = 30
-BATCH_SIZE = 32
+PAD_SIZE = 35
+BATCH_SIZE = 128
 
 class BinarySentiDataset(tud.Dataset):
     def __init__(self, data_path, tokenizer_path, pad_size):

@@ -11,17 +11,10 @@ from transformers import AdamW
 from transformers import get_linear_schedule_with_warmup
 from tqdm import tqdm
 
-EPOCHS = 3
+EPOCHS = 5
 CLS = 2
 BERT_PATH = './bert-base-chinese'
-
-def my_plot(epochs, loss):
-    plt.plot(epochs, loss)
-
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
-print(f'Use {device}')
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 model = TextRCNN_Bert(BERT_PATH, CLS)
 model.to(device)
@@ -44,6 +37,7 @@ for epoch in range(EPOCHS):
         out = model(tokens_ids, mask)
         loss = criterion(out, label)
         loss.backward()
+        #torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         epoch_loss.append(loss.item())
         optimizer.step()
         scheduler.step()
@@ -51,22 +45,20 @@ for epoch in range(EPOCHS):
     loss_vals.append(np.mean(epoch_loss))    
 end = time.time()
 print(f'Training costs:{end-start} seconds')
-my_plot(np.linspace(1, EPOCHS, EPOCHS).astype(int), loss_vals)
-
-#torch.save(model.state_dict(), "model.pth")
-#model = TextRCNN_Bert(BERT_PATH, CLS)
-#model.load_state_dict(torch.load("model.pth"))
-#model.to(device)
+    
+torch.save(model.state_dict(), "model.pth") 
+plt.plot(np.linspace(1, EPOCHS, EPOCHS).astype(int), loss_vals)
 
 model.eval()
 predict_all = np.array([], dtype=int)
-labels_all = np.array([], dtype=int)        
-for tokens_ids, mask, label in valdataloader:
-    tokens_ids, mask, label = tokens_ids.to(device), mask.to(device), label.to(device)
-    pred = model(tokens_ids, mask)
-    pred = torch.max(pred.data, 1)[1].cpu().numpy()
-    predict_all = np.append(predict_all, pred)   
-    truth = label.cpu().numpy()
-    labels_all = np.append(labels_all, truth)    
+labels_all = np.array([], dtype=int)
+with torch.no_grad():        
+  for tokens_ids, mask, label in valdataloader:
+      tokens_ids, mask, label = tokens_ids.to(device), mask.to(device), label.to(device)
+      pred = model(tokens_ids, mask)
+      pred = torch.max(pred.data, 1)[1].cpu().numpy()
+      predict_all = np.append(predict_all, pred)   
+      truth = label.cpu().numpy()
+      labels_all = np.append(labels_all, truth)    
 acc = metrics.accuracy_score(labels_all, predict_all)
-print(f'accuracy on dev is {acc}')  
+print(f'accuracy on dev is {acc}')
