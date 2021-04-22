@@ -20,7 +20,7 @@ python train_eval.py
 - 从有部分信息量的负标签中学习 --> 温度高一些
 - 防止受负标签中的噪声的影响 --> 温度低一些
 - 温度的选择和学生模型的大小有关，代码里选择T=5作为demo。
-3. 我们用[K-L散度](https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained)，来量化学生模型和教师模型的softmax层的差异。
+3. 我们用K-L散度(https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained)，来量化学生模型和教师模型的softmax层的差异。
 
 python distill.py
 ```
