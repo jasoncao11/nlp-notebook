@@ -13,20 +13,9 @@ from tqdm import tqdm
 device = "cuda" if torch.cuda.is_available() else 'cpu'  
 torch.cuda.empty_cache()
 
-class Model_Large(object):
-    def __init__(self, bert_model, saved_model, class_num=2):
-        self.model = TextRCNN_Bert(bert_model, class_num)
-        self.model.load_state_dict(torch.load(saved_model))
-        self.model.to(device)
-        self.model.eval()
-
-    def predict(self, context, mask):            
-        logit = self.model(context, mask, softmax=False)
-        return logit
-    
-class Model_Small(nn.Module):
+class TextRCNN(nn.Module):
     def __init__(self, class_num=2, vocab_size=21128):
-        super(Model_Small, self).__init__()
+        super(TextRCNN, self).__init__()
         self.embed = nn.Embedding(vocab_size, 200)        
         self.lstm = nn.LSTM(200, 128, bidirectional=True, batch_first=True)
         self.fc = nn.Linear(128 * 2 + 200, class_num)
@@ -44,7 +33,17 @@ class Model_Small(nn.Module):
             logit = self.fc(out) # [batch_size, class_num]
         return logit
 
-def kd_step(teacher, student, temperature, epochs, traindata, valdata):
+def kd_step(bert_model, saved_model, temperature, epochs, traindata, valdata, class_num=2):
+    
+    teacher = TextRCNN_Bert(bert_model, class_num)
+    if device == 'cpu':
+        teacher.load_state_dict(torch.load(saved_model, map_location=torch.device('cpu')))
+    else:
+        teacher.load_state_dict(torch.load(saved_model))
+    teacher.to(device)
+    teacher.eval()
+    
+    student = TextRCNN()
     student.to(device)
     student.train()    
     optimizer = optim.Adam(student.parameters(), lr=0.0001)
@@ -58,7 +57,7 @@ def kd_step(teacher, student, temperature, epochs, traindata, valdata):
         for tokens_ids, mask, label in pbar:
             tokens_ids, mask, label = tokens_ids.to(device), mask.to(device), label.to(device)
             with torch.no_grad():
-                logits_t = teacher.predict(tokens_ids, mask)
+                logits_t = teacher(tokens_ids, mask, softmax=False)
             student.zero_grad()            
             logits_s = student(tokens_ids, softmax=False)
             loss = KD_loss(input=F.log_softmax(logits_s/temperature, dim=-1),
@@ -73,7 +72,7 @@ def kd_step(teacher, student, temperature, epochs, traindata, valdata):
     student.eval()
     predict_all = np.array([], dtype=int)
     labels_all = np.array([], dtype=int)
-    with torch.no_grad():        
+    with torch.no_grad():         
         for tokens_ids, mask, label in valdata:
             tokens_ids, mask, label = tokens_ids.to(device), mask.to(device), label.to(device)
             pred = student(tokens_ids)
@@ -85,9 +84,9 @@ def kd_step(teacher, student, temperature, epochs, traindata, valdata):
     print(acc)
 
 if __name__ == '__main__':
-    kd_step(Model_Large('./bert-base-chinese', 'model.pth'), 
-            Model_Small(), 
-            5, 
+    kd_step('./bert-base-chinese', 
+            'model.pth', 
+            10, 
             10, 
             traindataloader, 
             valdataloader)
