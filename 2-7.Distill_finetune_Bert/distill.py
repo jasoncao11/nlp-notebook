@@ -86,7 +86,7 @@ def kd_step(bert_model, saved_model, temperature, epochs, traindata, valdata, cl
 if __name__ == '__main__':
     kd_step('./bert-base-chinese', 
             'model.pth', 
-            10, 
+            5, 
             10, 
             traindataloader, 
             valdataloader)
