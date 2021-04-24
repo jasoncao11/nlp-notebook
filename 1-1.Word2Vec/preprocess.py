@@ -2,8 +2,6 @@
 import torch
 import torch.utils.data as tud
 
-torch.manual_seed(1)
-
 C = 2 # context window size
 K = 15 # number of negative samples, K is approximate to C*2*5 for middle size corpus, thst is to pick 5 negative samples for each context word selected
 

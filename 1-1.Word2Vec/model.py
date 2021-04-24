@@ -21,7 +21,7 @@ class EmbeddingModel(nn.Module):
         self.out_embed.weight.data.uniform_(-0, 0)
     
     def forward(self, input_labels, pos_labels, neg_labels):
-        ''' input_labels: center words, [batch_size]
+        ''' input_labels: center words, [batch_size] which is one dimentional vector of batch size
             pos_labels: positive words, [batch_size, (window_size * 2)]
             neg_labels：negative words, [batch_size, K]            
             return: loss, [batch_size]

@@ -8,14 +8,10 @@ from model import BiLSTM_CRF_PARALLEL
 from settings import EMBEDDING_DIM, HIDDEN_DIM, EPOCHS, TRAIN_DATA_PATH
 from load_data import vocab2idx, label2idx, data_generator
 
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
-
-def my_plot(epochs, loss):
-    plt.plot(epochs, loss)
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 model = BiLSTM_CRF_PARALLEL(len(vocab2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
+model.train()
 #optimizer = optim.SGD(model.parameters(), lr=0.001, weight_decay=1e-4)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -36,7 +32,7 @@ for epoch in range(EPOCHS):
 
 torch.save(model.state_dict(), "./saved_model/model.pth")
     
-my_plot(np.linspace(1, EPOCHS, EPOCHS).astype(int), loss_vals)
+plt.plot(np.linspace(1, EPOCHS, EPOCHS).astype(int), loss_vals)
         
 end = time.time()
 print(f'Training costs:{end-start} seconds')

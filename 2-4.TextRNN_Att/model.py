@@ -3,10 +3,7 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
-    print('Use cuda')
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 class TextRNN_Att(nn.Module):
     def __init__(self, trial, vocab_size, class_num):

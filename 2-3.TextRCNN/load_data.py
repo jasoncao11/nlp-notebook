@@ -3,9 +3,7 @@ import torch
 import jieba
 from torchtext import data
 
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
+device = "cuda" if torch.cuda.is_available() else 'cpu'  
 
 def tokenizer(text):
     token = [tok for tok in jieba.cut(text)]

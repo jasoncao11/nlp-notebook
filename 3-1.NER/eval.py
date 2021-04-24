@@ -4,12 +4,11 @@ from model import BiLSTM_CRF_PARALLEL
 from settings import EMBEDDING_DIM, HIDDEN_DIM, TEST_DATA_PATH
 from load_data import vocab2idx, idx2vocab, label2idx, idx2label, data_generator
 
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 model = BiLSTM_CRF_PARALLEL(len(vocab2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
 model.load_state_dict(torch.load("./saved_model/model.pth"))
+model.eval()
 
 def predict(sent, tags):
     result = []

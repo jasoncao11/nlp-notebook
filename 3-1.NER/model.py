@@ -3,9 +3,7 @@ import torch
 import torch.nn as nn
 from settings import START_TAG, STOP_TAG
 
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 def log_sum_exp(smat):
     vmax = smat.max(dim=1, keepdim=True).values

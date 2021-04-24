@@ -3,9 +3,7 @@ import torch
 import jieba
 from torchtext import data
 
-device = "cpu"
-if torch.cuda.is_available():
-    device = "cuda"
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 #make sure the longest sentence in the bucket is no shorter than the biggest filter size.
 def tokenizer(text):

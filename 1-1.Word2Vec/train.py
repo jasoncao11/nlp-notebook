@@ -10,6 +10,7 @@ from collections import Counter
 from model import EmbeddingModel
 from preprocess import WordEmbeddingDataset
 
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 EPOCHS = 100
 MAX_VOCAB_SIZE = 10000
 EMBEDDING_SIZE = 200
@@ -49,22 +50,18 @@ dataset = WordEmbeddingDataset(subsampling, word2idx, word_freqs)
 dataloader = tud.DataLoader(dataset, BATCH_SIZE, shuffle=True)
 
 model = EmbeddingModel(len(idx2word), EMBEDDING_SIZE)
-if torch.cuda.is_available():
-    model.cuda()
+model.to(device)
+model.train()
 optimizer = optim.Adam(model.parameters(), lr=LR)
 
 for epoch in range(EPOCHS):
     pbar = tqdm(dataloader)
     pbar.set_description("[Epoch {}]".format(epoch))    
     for i, (input_labels, pos_labels, neg_labels) in enumerate(pbar):
-        input_labels = input_labels.long()
-        pos_labels = pos_labels.long()
-        neg_labels = neg_labels.long()
-        if torch.cuda.is_available():
-            input_labels = input_labels.cuda()
-            pos_labels = pos_labels.cuda()
-            neg_labels = neg_labels.cuda()        
-        optimizer.zero_grad()
+        input_labels = input_labels.to(device)
+        pos_labels = pos_labels.to(device)
+        neg_labels = neg_labels.to(device)      
+        model.zero_grad()
         loss = model(input_labels, pos_labels, neg_labels).mean()
         loss.backward()
         optimizer.step()
