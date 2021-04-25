@@ -12,6 +12,10 @@ transformers 3.0.2
 
 ## 目录
 
+#### 0. 新词发现算法
+
+- 0-1. [New Words Discovery](0-1.WordsDiscovery)
+
 #### 1. Basic Embedding Model
 
 - 1-1. [Word2Vec(Skip-gram)](1-1.Word2Vec)
