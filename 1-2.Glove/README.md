@@ -1,4 +1,4 @@
-# Pytorch implementation of Glove.
+# Pytorch implementation of Glove
 
 ## 原理
 
