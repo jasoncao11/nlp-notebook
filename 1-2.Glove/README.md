@@ -2,8 +2,6 @@
 
 ## Concept of Glove
 
-![w2c](../images/w2c.png)
-
 - [https://blog.csdn.net/coderTC/article/details/73864097](https://blog.csdn.net/coderTC/article/details/73864097)
 - [https://juejin.cn/post/6844903923279642638](https://juejin.cn/post/6844903923279642638)
 - [https://nlpython.com/implementing-glove-model-with-pytorch/](https://nlpython.com/implementing-glove-model-with-pytorch/)
