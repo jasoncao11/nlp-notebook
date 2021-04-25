@@ -19,6 +19,7 @@ transformers 3.0.2
 #### 1. Basic Embedding Model
 
 - 1-1. [Word2Vec(Skip-gram)](1-1.Word2Vec)
+- 1-2. [Glove](1-2.Glove)
 
 #### 2. Text Classification (每个模型内部使用[optuna](https://optuna.org/)进行调参)
 
@@ -61,3 +62,5 @@ transformers 3.0.2
 [6] Deep Pyramid Convolutional Neural Networks for Text Categorization
 
 [7] Attention Is All You Need
+
+[8] Global Vectors for Word Representation
