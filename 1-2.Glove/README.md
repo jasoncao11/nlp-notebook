@@ -1,6 +1,6 @@
 # Pytorch implementation of Glove.
 
-## Concept of Glove
+## 原理
 
 - [https://blog.csdn.net/coderTC/article/details/73864097](https://blog.csdn.net/coderTC/article/details/73864097)
 - [https://juejin.cn/post/6844903923279642638](https://juejin.cn/post/6844903923279642638)
@@ -14,7 +14,7 @@
 ![glove6](../images/glove6.png)
 ![glove7](../images/glove7.png)
 
-## Visualization
+## 可视化
 
 Save the embedding along with the words to TSV files as shown below, upload these two TSV files to [Embedding Projector](https://projector.tensorflow.org/) for better visualization.
 
