@@ -7,9 +7,9 @@
 - [Hands-on coding in PyTorch — Compressing BERT](https://medium.com/huggingface/distilbert-8cf3380435b5)
 
 ## 2. 数据预处理
-
+```
 load_data.py 里，将数据处理成 [CLS] + tokens + [SEP] + padding 的形式，并生成相应的mask
-
+```
 ## 3. 首先fine tune Bert
 ```
 1. 结构为 Bert+TextRCNN
