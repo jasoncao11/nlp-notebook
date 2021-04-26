@@ -10,7 +10,7 @@
 ```
 load_data.py 里，将数据处理成 [CLS] + tokens + [SEP] + padding 的形式，并生成相应的mask
 ```
-## 3. 首先fine tune Bert
+## 3. Fine tune Bert
 ```
 1. 结构为 Bert+TextRCNN
 2. 模型中选择Bert倒数第二层的隐向量传入Bilstm，而不是最后一层，是因为倒数第二层不那么接近任务，但是又能学习到句子的较高层的语义。
