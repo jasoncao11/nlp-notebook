@@ -2,6 +2,10 @@
 
 ![textrnn](../images/Att-BiLSTM.PNG)
 
+## Attention score 的几种常用算法:
+
+![atten](../images/atten.png)
+
 ```
 python train_eval.py
 
