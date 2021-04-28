@@ -8,15 +8,18 @@
 
 ## 2. 数据预处理
 ```
-load_data.py 里，将数据处理成 [CLS] + tokens + [SEP] + padding 的形式，并生成相应的mask
+load_data.py 里，将数据处理成 [CLS] + tokens + [SEP] + padding 的形式，并生成相应的mask。
 ```
 ## 3. Fine tune Bert
 ```
+model.py:
 1. 结构为 Bert+TextRCNN
-2. 模型中选择Bert倒数第二层的隐向量传入Bilstm，而不是最后一层，是因为倒数第二层不那么接近任务，但是又能学习到句子的较高层的语义。
+2. Bert 的输出如图片所示，模型里选择Bert倒数第二层的隐向量传入Bilstm，而不是最后一层，是因为倒数第二层不那么接近任务，但是又能学习到句子的较高层的语义。
 
-python train_eval.py
+训练：python train_eval.py
 ```
+![output](../images/bert_output.png)
+
 ## 4. 蒸馏上一步生成的大模型至小模型
 ```
 1. 大模型也被称为教师模型，小模型被称为学生模型。学生模型学习的是教师模型的softmax层的输出概率分布，以便直接学习到其泛化能力。
