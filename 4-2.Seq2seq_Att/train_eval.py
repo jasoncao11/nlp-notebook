@@ -6,28 +6,32 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
 from load_data import traindataloader, valdataloader, vocab_size, PAD_IDX
-from model import Encoder, Decoder, Seq2Seq
+from model import Encoder, Decoder, Seq2Seq, Attention
 
 device = "cuda" if torch.cuda.is_available() else 'cpu' 
 INPUT_DIM = vocab_size
 OUTPUT_DIM = vocab_size
 ENC_EMB_DIM = 256
 DEC_EMB_DIM = 256
-HID_DIM = 512
-N_LAYERS = 2
+ENC_HID_DIM = 512
+DEC_HID_DIM = 512
 ENC_DROPOUT = 0.5
 DEC_DROPOUT = 0.5
-N_EPOCHS = 10
+N_EPOCHS = 300
 CLIP = 1
 
-enc = Encoder(INPUT_DIM, ENC_EMB_DIM, HID_DIM, N_LAYERS, ENC_DROPOUT)
-dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, HID_DIM, N_LAYERS, DEC_DROPOUT)
+attn = Attention(ENC_HID_DIM, DEC_HID_DIM)
+enc = Encoder(INPUT_DIM, ENC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, ENC_DROPOUT)
+dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, DEC_DROPOUT, attn)
 
 model = Seq2Seq(enc, dec, device).to(device)
 
 def init_weights(m):
     for name, param in m.named_parameters():
-        nn.init.uniform_(param.data, -0.08, 0.08)        
+        if 'weight' in name:
+            nn.init.normal_(param.data, mean=0, std=0.01)
+        else:
+            nn.init.constant_(param.data, 0)    
 model.apply(init_weights)
 
 optimizer = optim.Adam(model.parameters(), lr=5e-5)
