@@ -51,8 +51,3 @@ traindataloader = tud.DataLoader(traindataset, BATCH_SIZE, shuffle=False)
 
 valdataset = BinarySentiDataset(DEV_DATA_PATH, TOKENIZER_PATH, PAD_SIZE)
 valdataloader = tud.DataLoader(valdataset, BATCH_SIZE, shuffle=False)
-#for tokens_ids, mask, label in dataloader:
-#    print(f'tokens_ids = {tokens_ids}')
-#    print(f'mask = {mask}')
-#    print(f'label = {label}')
-#    print(f'-----------\n')
