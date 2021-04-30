@@ -5,12 +5,12 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
-from load_data import traindataloader, valdataloader, vocab_size, PAD_IDX
+from load_data import train_iter, val_iter, id2vocab, PAD_IDX
 from model import Encoder, Decoder, Seq2Seq, Attention
 
 device = "cuda" if torch.cuda.is_available() else 'cpu' 
-INPUT_DIM = vocab_size
-OUTPUT_DIM = vocab_size
+INPUT_DIM = len(id2vocab)
+OUTPUT_DIM = len(id2vocab)
 ENC_EMB_DIM = 256
 DEC_EMB_DIM = 256
 ENC_HID_DIM = 512
@@ -43,7 +43,7 @@ loss_vals_eval = []
 for epoch in range(N_EPOCHS):
     model.train()
     epoch_loss= []
-    pbar = tqdm(traindataloader)
+    pbar = tqdm(train_iter)
     pbar.set_description("[Train Epoch {}]".format(epoch)) 
     for trg, src in pbar:
         trg, src = trg.to(device), src.to(device)
@@ -66,7 +66,7 @@ for epoch in range(N_EPOCHS):
     
     model.eval()
     epoch_loss_eval= []
-    pbar = tqdm(valdataloader)
+    pbar = tqdm(val_iter)
     pbar.set_description("[Eval Epoch {}]".format(epoch)) 
     for trg, src in pbar:
         trg, src = trg.to(device), src.to(device)

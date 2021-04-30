@@ -23,7 +23,7 @@ train, val = data.TabularDataset.splits(
         skip_header=True,
         fields=[('trg', TEXT), ('src', TEXT)])
 
-TEXT.build_vocab(train, min_freq=1)
+TEXT.build_vocab(train, min_freq=2)
 id2vocab = TEXT.vocab.itos
 vocab2id = TEXT.vocab.stoi
 PAD_IDX = vocab2id[TEXT.pad_token]
