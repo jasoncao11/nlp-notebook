@@ -1,4 +1,4 @@
-# Transformer pytorch implementation
+# Attention is All You Need
 
 ![Transformer](../images/Transformer.png)
 ![Transformer1](../images/trans1.png)
