@@ -3,5 +3,4 @@
 ![Transformer](../images/Transformer.png)
 
 ## Reference
-- https://wmathor.com/index.php/archives/1455/
-- http://nlp.seas.harvard.edu/2018/04/03/attention.html
+- https://github.com/bentrevett/pytorch-seq2seq/blob/master/6%20-%20Attention%20is%20All%20You%20Need.ipynb
