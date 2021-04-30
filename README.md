@@ -5,7 +5,7 @@ NLP 领域常见任务的实现，包括新词发现, 以及基于pytorch的词�
 ```
 python 3.7
 pytorch 1.8.0
-torchtext 0.5.0
+torchtext 0.9.1
 optuna 2.6.0
 transformers 3.0.2
 ```
@@ -45,12 +45,11 @@ transformers 3.0.2
 
 数据集在 NER/data 文件夹内
 
-#### 4. Sequence2Sequence model
+#### 4. 文本摘要生成
 
-- 4-1. [Regular seq2seq](4-1.Seq2seq)
-- 4-2. [Seq2seq with attention](4-2.Seq2seq_Att)
-
-#### 5-1. [Transformer pytorch implementation step by step](5-1.Transformer)
+- 4-1. [Seq2seq模型](4-1.Seq2seq)
+- 4-2. [Seq2seq模型+注意力机制](4-2.Seq2seq_Att)
+- 4-3. [Transformer 模型](4-3.Transformer)
 
 ## 对应论文
 
