@@ -1,4 +1,4 @@
-# Transformer pytorch implementation step by step
+# Transformer pytorch implementation
 
 ![Transformer](../images/Transformer.png)
 ![Transformer1](../images/trans1.png)
