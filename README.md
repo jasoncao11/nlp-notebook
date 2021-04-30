@@ -16,12 +16,12 @@ transformers 3.0.2
 
 - 0-1. [New Words Discovery](0-1.WordsDiscovery)
 
-#### 1. Basic Embedding Model
+#### 1. 词向量
 
 - 1-1. [Word2Vec(Skip-gram)](1-1.Word2Vec)
 - 1-2. [Glove](1-2.Glove)
 
-#### 2. Text Classification (每个模型内部使用[optuna](https://optuna.org/)进行调参)
+#### 2. 文本分类 (每个模型内部使用[optuna](https://optuna.org/)进行调参)
 
 - 2-1. [TextCNN](2-1.TextCNN)
 - 2-2. [FastText](2-2.FastText)
