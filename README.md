@@ -41,7 +41,9 @@ transformers 3.0.2
 验证集|7000
 测试集|6300
 
-#### 3-1. [BILSTM_CRF_NER](3-1.NER)
+#### 3. 实体识别 
+
+- 3-1. [BILSTM_CRF_NER](3-1.NER)
 
 数据集在 NER/data 文件夹内
 
