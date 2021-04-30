@@ -45,7 +45,12 @@ transformers 3.0.2
 
 数据集在 NER/data 文件夹内
 
-#### 4-1. [Transformer pytorch implementation step by step](4-1.Transformer)
+#### 4. Sequence2Sequence model
+
+- 4-1. [Regular seq2seq](4-1.Seq2seq)
+- 4-2. [Seq2seq with attention](4-2.Seq2seq_Att)
+
+#### 5-1. [Transformer pytorch implementation step by step](5-1.Transformer)
 
 ## 对应论文
 
@@ -64,3 +69,7 @@ transformers 3.0.2
 [7] Attention Is All You Need
 
 [8] Global Vectors for Word Representation
+
+[9] [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215)
+
+[10] [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473)

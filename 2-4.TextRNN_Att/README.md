@@ -2,6 +2,10 @@
 
 ![textrnn](../images/Att-BiLSTM.PNG)
 
+## [Attention score 的几种常用算法](https://zhuanlan.zhihu.com/p/46313756):
+
+![atten](../images/atten.png)
+
 ```
 python train_eval.py
 
