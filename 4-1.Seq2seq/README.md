@@ -2,7 +2,7 @@
 
 ## 结构：
 
-![s2s1](../images/seq2seq1.png)
+![s2s1](../images/seq2seq1_.png)
 
 - Encoder 部分是一个双层单向LSTM，输入为 src=[batch size, src len]，经过 Embedding 转换为 [batch size, src len, emb dim]，经过 encoder LSTM，输出为所有时刻的隐状态 outputs=[batch size, src len, enc hid dim * 2] + 最后一个时刻的隐状态 hidden=[2 * 1, batch size, enc hid dim] + 最后一个时刻的 cell state=[2 * 1, batch size, enc hid dim]。
 
