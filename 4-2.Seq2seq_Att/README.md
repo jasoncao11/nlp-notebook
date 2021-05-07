@@ -1,4 +1,4 @@
-# Seq2seq model with attention
+# Sequence to Sequence Model with Attention
 
 ## 结构：
 
