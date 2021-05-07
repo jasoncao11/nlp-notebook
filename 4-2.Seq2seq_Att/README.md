@@ -1,4 +1,4 @@
-# Neural Machine Translation by Jointly Learning to Align and Translate
+# Seq2seq model with attention
 
 ## 结构：
 
@@ -10,8 +10,9 @@
 
 - Decoder 是一个单层单向RNN，每个时刻接收 inputs=[batch size, 1] + 解码器上一个时刻的隐状态 hidden + 编码器所有时刻的隐状态 encoder_outputs，inputs 经过 embedding 转换为 embedded=[batch size, 1, emb dim]，attention 与 encoder_outputs 做点积运算得到 encoder_outputs 的加权平均 weighted，将 weighted 和 embedded 拼接起来与 hidden 一起传入 decoder RNN，得到 output=[batch size, 1, dec hid dim] 和 hidden=[1, batch size, dec hid dim]，output 和 weighted 以及 embedded三者拼接起来经过线性变换后得到该时刻的输出 [batch size, output dim]，hidden 则继续作为解码器下一个时刻的输入。   
 
-- ![s2s2](../images/seq2seq2.png)
-- ![s2s3](../images/seq2seq3.png)
+- Seq2seq:
+![s2s2](../images/seq2seq2.png)
+![s2s3](../images/seq2seq3.png)
 
 ## Reference
 - https://github.com/bentrevett/pytorch-seq2seq/blob/master/3%20-%20Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.ipynb
