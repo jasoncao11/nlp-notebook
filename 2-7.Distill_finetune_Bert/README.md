@@ -31,3 +31,9 @@ model.py:
 
 python distill.py
 ```
+## 5. TODO
+```
+尝试采用中文BERT-wwm预训练模型(https://github.com/ymcui/Chinese-BERT-wwm)，其预训练阶段的改进有：
+- 在全词Mask中，如果一个完整的词的部分WordPiece子词被mask，则同属该词的其他部分也会被mask，即全词Mask。
+- 取消Next Sentence Prediction（NSP）loss
+```
