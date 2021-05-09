@@ -21,7 +21,7 @@ model = Seq2Seq(enc, dec, device).to(device)
 model.load_state_dict(torch.load('model.pt'))
 model.eval()
 
-text = '为了更好地预测网络流量,提出了一种改进型Elman网络模型,并用文化算法对该模型进行了优化,获得了更佳的拟合度和预测性能。'
+text = '中新网9月19日电据英国媒体报道,当地时间19日,苏格兰公投结果出炉,55%选民投下反对票,对独立说“不”。在结果公布前,英国广播公司(BBC)预测,苏格兰选民以55%对45%投票反对独立。'
 tokens = [tok for tok in jieba.cut(text)]
 tokens_idx = [SOS_IDX] + [vocab2id.get(word, UNK_IDX) for word in tokens] + [EOS_IDX]
 tokens_idx = torch.tensor(tokens_idx)
@@ -34,7 +34,7 @@ for t in range(1, 35):
     inputs = output.argmax(1)
     word = id2vocab[inputs.item()]
     res.append(word)
-    if word == '<EOS>':
+    if word == '<eos>':
         break
 print(''.join(res))
 

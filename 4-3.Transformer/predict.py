@@ -23,7 +23,7 @@ model = Transformer(enc, dec, PAD_IDX, device).to(device)
 model.load_state_dict(torch.load('model.pt'))
 model.eval()
 
-sent = ''
+sent = '中新网9月19日电据英国媒体报道,当地时间19日,苏格兰公投结果出炉,55%选民投下反对票,对独立说“不”。在结果公布前,英国广播公司(BBC)预测,苏格兰选民以55%对45%投票反对独立。'
 tokens = [tok for tok in jieba.cut(sent)]
 tokens = [TEXT.init_token] + tokens + [TEXT.eos_token]
     
