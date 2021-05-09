@@ -51,9 +51,10 @@ transformers 3.0.2
 
 #### 4. 文本摘要生成
 
-- 4-1. [Seq2seq模型](4-1.Seq2seq)
-- 4-2. [Seq2seq模型+注意力机制](4-2.Seq2seq_Att)
+- 4-1. [Seq2seq 模型](4-1.Seq2seq)
+- 4-2. [Seq2seq 模型+注意力机制](4-2.Seq2seq_Att)
 - 4-3. [Transformer 模型](4-3.Transformer)
+- 4-4. [GPT 摘要生成](4-4.GPT)
 
 #### 5. algo
 
