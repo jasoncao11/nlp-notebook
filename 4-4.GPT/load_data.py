@@ -34,8 +34,6 @@ class SummaryDataset(tud.Dataset):
     def __init__(self, data_path, tokenizer_path, max_len):
         super(SummaryDataset, self).__init__()
         self.tokenizer = BertTokenizer.from_pretrained(tokenizer_path)
-        #self.tokenizer.add_tokens("[Content]", special_tokens=True)
-        #self.tokenizer.add_tokens("[Summary]", special_tokens=True)
         #内容正文和摘要分别用content_id，summary_id区分表示
         self.content_id = self.tokenizer.convert_tokens_to_ids("[Content]")
         self.summary_id = self.tokenizer.convert_tokens_to_ids("[Summary]")        
