@@ -9,7 +9,7 @@ TRAIN_DATA_PATH = './data/train.tsv'
 DEV_DATA_PATH = './data/dev.tsv'
 TOKENIZER_PATH = './vocab'
 BATCH_SIZE = 2
-MAX_LEN = 512
+MAX_LEN = 512 #输入模型的最大长度，不能超过config中n_ctx的值
 
 def collate_fn(batch_data):
     """
