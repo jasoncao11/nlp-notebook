@@ -8,7 +8,9 @@
 
 ## 2. 数据预处理
 ```
-load_data.py 里，将数据处理成 [CLS] + tokens + [SEP] + padding 的形式，并生成相应的mask。
+load_data.py 里，将数据处理成 [CLS] + tokens + [SEP] + [PAD](0个或多个)的形式，固定sequence length为35，并生成相应的mask。
+
+注：BERT由于position-embedding的限制，输入的最大长度为512, 其中还需要包括[CLS]和[SEP]. 那么实际可用的长度仅为510。
 ```
 ## 3. Fine tune Bert
 ```
