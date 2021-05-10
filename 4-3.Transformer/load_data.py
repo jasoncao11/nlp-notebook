@@ -30,7 +30,7 @@ PAD_IDX = vocab2id[TEXT.pad_token]
 UNK_IDX = vocab2id[TEXT.unk_token]
 SOS_IDX = vocab2id[TEXT.init_token]
 EOS_IDX = vocab2id[TEXT.eos_token]
-#train_iter 自动shuffle, val_iter 按照sort_key排序
+#train_iter 自动shuffle, val_iter 按照sort_key排序，传入Decoder或者Encoder的sequence的长度不能超过模型中 position embedding 的 "vocabulary" size
 train_iter, val_iter = data.BucketIterator.splits(
         (train, val),
         batch_sizes=(256, 128),
