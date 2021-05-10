@@ -34,8 +34,7 @@ class BinarySentiDataset(tud.Dataset):
         seq_len = len(tokens)
         if seq_len < self.pad_size - 2:
             tokens = ['[CLS]']+tokens+['[SEP]']+['[PAD]']*(self.pad_size - 2 - seq_len)
-            mask = [1] * (seq_len+2) + [0] * (self.pad_size - seq_len - 2)
-            
+            mask = [1] * (seq_len + 2) + [0] * (self.pad_size - seq_len - 2)     
         else:
             tokens = ['[CLS]']+tokens[:self.pad_size - 2]+['[SEP]']
             mask = [1] * self.pad_size
