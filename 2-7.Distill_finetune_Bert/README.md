@@ -53,15 +53,11 @@ python distill.py
 4.根据训练数据动态地改变mask的模式
 
 ### ALbert:
-1. Embedding层因式分解
-2. 跨层的参数共享
-3. Bert的Next sentence prediction预训练任务:二分类
-训练数据的正样本：同一个文档中的两个连续的句子
-负样本：采用两个不同的文档的句子
+1.Embedding层因式分解
 
-ALbert的sentence-order-prediction预训练任务：增加难度的二分类
-训练数据的正样本：同一个文档中的两个连续的句子
-负样本：把正样本的数据反转得到
+2.跨层的参数共享
+
+3.Bert的Next sentence prediction预训练任务：二分类；训练数据的正样本：同一个文档中的两个连续的句子；负样本：采用两个不同的文档的句子。ALbert的sentence-order-prediction预训练任务：增加难度的二分类；训练数据的正样本：同一个文档中的两个连续的句子；负样本：把正样本的数据反转得到。
 
 ### Transformer-XL:
 引入循环机制和相对位置编码，解决Transformer长度限制的问题
