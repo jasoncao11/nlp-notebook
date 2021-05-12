@@ -58,7 +58,7 @@ transformers 3.0.2
 
 #### 5. algo
 
-该文件夹内记录一些leetcode经典算法题，部分题解著作权归作者所有
+该文件夹内记录一些leetcode经典算法题，部分解题思路搬运自leetcode题解。
 
 ## 对应论文
 
