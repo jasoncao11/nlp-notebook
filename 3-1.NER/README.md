@@ -91,3 +91,4 @@ scores=[[[0.0659, 0.2049, 0.5691, 0.9560],
 2. load_data.py implements a data generator for producing the tensor of batch size.
 
 3. pytorch_tutorial_vec.py is the vectorized version of the [pytorch BiLSTM-CRF tutorial](https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html), modified based on [https://zhuanlan.zhihu.com/p/97676647](https://zhuanlan.zhihu.com/p/97676647).
+4. [最通俗易懂的BiLSTM-CRF模型中的CRF层介绍](https://zhuanlan.zhihu.com/p/44042528) 
