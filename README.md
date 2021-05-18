@@ -39,9 +39,10 @@ transformers 3.0.2
 验证集|7000
 测试集|6300
 
-对于多标签分类问题：
-- 最后一层的logits的激活函数是sigmoid, >0 true, <0 false
-- 转换成样本关系的问题，训练的时候，每次都是输入两个样本，这两个样本要么是同一个类别，要么是不同类别，由此训练一个二分类模型。预测的时候，新进来一个数据，每次和各个类别下的有代表性的数据一起作为模型的输入，判断是否属于同一类别。
+##### 分类问题名称 & 输出层使用激活函数 & 对应的损失函数 & pytorch loss function
+- 多标签 & sigmoid & binary cross entropy & BCELoss/BCEWithLogitsLoss
+- 多分类 & softmax & categorical cross entropy & NLLLoss/CrossEntropyLoss
+- 二分类可看作输出层有一个logit，对应sigmoid和binary cross entropy，或有两个logits，对应softmax和categorical cross entropy
 
 #### 3. 实体识别 
 
