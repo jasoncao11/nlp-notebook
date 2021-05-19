@@ -91,3 +91,11 @@ Reformer 是对 Transformer 的性能的改进，主要改动有三点：
 2. 引入可逆残差层改进残差层，用计算量换取内存量
 3. 对前馈层的输入分块，改并行为串行节省内存
 ```
+
+## 5. 参考
+
+![dt1](../images/dt1.png)
+![dt2](../images/dt2.png)
+![dt3](../images/dt3.png)
+![dt4](../images/dt4.png)
+![dt5](../images/dt5.png)
