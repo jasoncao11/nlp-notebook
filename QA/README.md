@@ -139,9 +139,11 @@ print(sample(a,2))
 
 # 4. Batch Normalization vs Layer Normalization
 
+Ref：https://github.com/jasoncao11/nlp-notebook/tree/master/QA
+
 ![qa2](../images/qa2.png)
 
 批归一化是不同数据之间对单个神经元的归一化，层归一化是单个训练数据对某一层所有神经元的归一化。
 
-![qa3](../images/qa3.png)
+![q3](../images/q3.png)
 
