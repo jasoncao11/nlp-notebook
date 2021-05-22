@@ -147,3 +147,14 @@ Ref：https://github.com/jasoncao11/nlp-notebook/tree/master/QA
 
 ![q3](../images/q3.png)
 
+# 5. Sigmoid/ReLU/LeakyReLU/PReLU/ELU
+
+Ref：https://zhuanlan.zhihu.com/p/172254089
+
+# 6. 优化算法Optimizer比较
+
+![q4](../images/q4.png)
+![q5](../images/q5.png)
+![q6](../images/q6.png)
+![q7](../images/q7.png)
+![q8](../images/q8.png)
