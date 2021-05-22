@@ -8,7 +8,7 @@
 
 (4).[P-R曲线](https://blog.csdn.net/u013249853/article/details/96132766): 以Recall为横坐标, Precision为纵坐标, 随着阈值改变, 我们将得到P-R曲线。
 
-(5).F1-Score: Precision和Recall的加权调和平均, F1=(2*R*R)/(P+R)
+(5).F1-Score: Precision和Recall的加权调和平均, F1=(2*P*R)/(P+R)
 
 (6).[ROC](https://www.zhihu.com/question/39840928): 以真阳率(TPR=TP/TP+FN, TPRate的意义是所有真实类别为1的样本中, 预测类别为1的比例)为横坐标, 假阳率(FPR=FP/FP+TN, FPRate的意义是所有真实类别为0的样本中, 预测类别为1的比例)为纵坐标, 随着阈值改变, 我们将得到AUC曲线。
 
