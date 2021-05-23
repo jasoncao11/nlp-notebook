@@ -311,3 +311,18 @@ Ref：https://www.cnblogs.com/yixuan-xu/p/6272208.html
 
 ![q15](../images/q15.png)
 ![q16](../images/q16.png)
+
+# 23. SVM 中常用核函数及其选择
+
+Ref：https://zhuanlan.zhihu.com/p/72320216
+
+![q17](../images/q17.png)
+
+# 24. Bagging vs Boosting
+
+![q18](../images/q18.png)
+![q19](../images/q19.png)
+
+# 25. Random forest
+
+![q20](../images/q20.png)
