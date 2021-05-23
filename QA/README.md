@@ -218,7 +218,7 @@ Ref：https://zhuanlan.zhihu.com/p/46313756
 
 ![dt1](../images/dt1.png)
 
-# 16. Bert及其变体
+# 16. Bert变体
 
 ### 中文BERT-wwm预训练模型
 ```
