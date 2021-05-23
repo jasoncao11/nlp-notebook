@@ -158,3 +158,28 @@ Ref：https://zhuanlan.zhihu.com/p/172254089
 ![q6](../images/q6.png)
 ![q7](../images/q7.png)
 ![q8](../images/q8.png)
+
+# 7. 词向量
+
+- word2vec: 对高频词进行二次采样，利用负采样让一个训练样本仅仅更新隐藏层与输出层之间的小部分权重。
+
+- Glove: 共现矩阵挖掘语法语义信息
+
+- ELMO: 基于语言模型思路，利用上下文建模某一单词。(1).使用双向LSTM，更好的学习词语间的上下文信息；(2).利用双层LSTM，是模型学到更深层次的语义表征。低层提取语法等方面的初级信息，高层则善于捕捉语义等高级特征。(3).对原始输入进行字符级别的卷积，能更好地抓取字词的内部结构信息。
+
+# 8. RNN vs LSTM
+
+Ref：
+- https://weberna.github.io/blog/2017/11/15/LSTM-Vanishing-Gradients.html#fn:3
+- https://www.zhihu.com/question/44895610/answer/616818627
+
+在多层网络中，影响梯度大小的因素主要有两个：权重和激活函数的偏导。
+
+对于RNN，向后传播根据链式法则求偏导的时候，会涉及激活函数偏导的连乘项，如图所示，以激活函数sigmoid为例，其偏导的上界1/4，如果Wh的值很小，对应梯度消失，反之，梯度爆炸。
+![q9](../images/q9.png)
+![q10](../images/q10.png)
+
+对于LSTM，如图所示，我们可以通过调节forget gate value的大小，使连乘项的值接近于1.
+![q11](../images/q11.png)
+![q12](../images/q12.png)
+![q13](../images/q13.png)
