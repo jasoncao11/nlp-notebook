@@ -163,7 +163,7 @@ Ref：https://zhuanlan.zhihu.com/p/172254089
 
 - word2vec: 对高频词进行二次采样，利用负采样让一个训练样本仅仅更新隐藏层与输出层之间的小部分权重。
 
-- Glove: 共现矩阵挖掘语法语义信息
+- Glove: 利用共现矩阵挖掘语法语义信息。
 
 - ELMO: 基于语言模型思路，利用上下文建模某一单词。(1).使用双向LSTM，更好的学习词语间的上下文信息；(2).利用双层LSTM，是模型学到更深层次的语义表征。低层提取语法等方面的初级信息，高层则善于捕捉语义等高级特征。(3).对原始输入进行字符级别的卷积，能更好地抓取字词的内部结构信息。
 
@@ -214,7 +214,11 @@ Ref：https://zhuanlan.zhihu.com/p/46313756
 ![dt4](../images/dt4.png)
 ![dt5](../images/dt5.png)
 
-# 15. Bert及其变体
+# 15. 关于剪枝
+
+![dt1](../images/dt1.png)
+
+# 16. Bert及其变体
 
 ### 中文BERT-wwm预训练模型
 ```
@@ -245,4 +249,34 @@ Ref：https://zhuanlan.zhihu.com/p/46313756
 ```
 ![dt2](../images/dt2.png)
 
+# 17. Transformer-XL
 
+引入循环机制和相对位置编码，解决Transformer长度限制的问题。
+
+# 18. XLNet
+
+```
+自回归语言模型（Autoregressive LM）:根据上文内容预测下一个可能跟随的单词，就是常说的自左向右的语言模型任务，或者反过来也行，就是根据下文预测前面的单词，这种类型的LM被称为自回归语言模型。GPT 就是典型的自回归语言模型。自回归语言模型缺点是只能利用上文或者下文的信息，不能同时利用上文和下文的信息。优点是天然匹配一些生成类NLP任务，比如文本摘要，机器翻译等，在实际生成内容的时候，就是从左向右的。
+
+自编码语言模型（Autoencoder LM）：自回归语言模型只能根据上文预测下一个单词，或者反过来，只能根据下文预测前面一个单词。相比而言，Bert通过在输入X中随机Mask掉一部分单词，然后预训练过程的主要任务之一是根据上下文单词来预测这些被Mask掉的单词，它能比较自然地融入双向语言模型，同时看到被预测单词的上文和下文。缺点在于输入侧引入[Mask]标记，导致预训练阶段和Fine-tuning阶段不一致的问题，另外一个是，Bert在第一个预训练阶段，假设句子中多个单词被Mask掉，这些被Mask掉的单词之间没有任何关系，是条件独立的，而有时候这些单词之间是有关系的。
+
+XLNet融合Transformer-XL + GPT的自回归模式 + bert的双向语言模型 + 双流自注意力机制去除[Mask]标识符
+
+Reference:
+
+https://towardsdatascience.com/what-is-xlnet-and-why-it-outperforms-bert-8d8fce710335
+
+https://towardsdatascience.com/what-is-two-stream-self-attention-in-xlnet-ebfe013a0cf3
+
+https://zhuanlan.zhihu.com/p/70257427
+```
+
+# 19. Reformer
+
+```
+Reformer 是对 Transformer 的性能的改进，主要改动有三点：
+
+1. 引入 LSH 改进注意力模块，将复杂度由 O(L^2)降为 O(L*logL)，其中 L 是序列长度
+2. 引入可逆残差层改进残差层，用计算量换取内存量
+3. 对前馈层的输入分块，改并行为串行节省内存
+```
