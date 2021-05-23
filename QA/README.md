@@ -305,3 +305,9 @@ One-Vs-All（或者叫 One-Vs-Rest）的思想是把一个多分类的问题变�
 
 Ref：https://zhuanlan.zhihu.com/p/46599015
 
+# 22. K-means vs K-means++
+
+Ref：https://www.cnblogs.com/yixuan-xu/p/6272208.html
+
+![q15](../images/q15.png)
+![q16](../images/q16.png)
