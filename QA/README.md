@@ -320,6 +320,8 @@ Ref：https://zhuanlan.zhihu.com/p/72320216
 
 # 24. Bagging vs Boosting
 
+Ref：https://zhuanlan.zhihu.com/p/57965634
+
 ![q18](../images/q18.png)
 ![q19](../images/q19.png)
 
