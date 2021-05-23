@@ -185,3 +185,64 @@ Ref：
 ![q11](../images/q11.png)
 ![q12](../images/q12.png)
 ![q13](../images/q13.png)
+
+# 9. Seq2seq with attention
+
+在Encoder-Decoder结构中，Encoder把所有的输入序列都编码成一个统一的语义特征c再解码，因此， c中必须包含原始序列中的所有信息，它的长度就成了限制模型性能的瓶颈。Attention机制通过在每个时间输入不同的c来解决这个问题，c由解码器上一个时刻的隐状态与编码器所有时刻的隐状态做Attention运算得到。
+
+# 10. Attention的几种计算方法
+
+Ref：https://zhuanlan.zhihu.com/p/46313756
+
+![atten](../images/atten.png)
+
+# 11. 为什么Transformer需要进行 Multi-head Attention？
+
+将模型分为多个头，形成多个子空间，有助于网络捕捉到更丰富的特征/信息。可以类比CNN中同时使用多个卷积核的作用。
+
+# 12. 如何理解Transformer中的Positional Encoding？
+
+由于Transformer中没有循环结构，为了使模型能够利用序列的顺序，需要插入一些关于tokens在序列中相对或绝对位置的信息。
+
+# 13. Bert的mask机制
+
+![q14](../images/q14.png)
+
+# 14. Bert蒸馏
+
+![dt3](../images/dt3.png)
+![dt4](../images/dt4.png)
+![dt5](../images/dt5.png)
+
+# 15. Bert及其变体
+
+### 中文BERT-wwm预训练模型
+```
+其预训练阶段的改进有：
+- 在全词Mask中，如果一个完整的词的部分WordPiece子词被mask，则同属该词的其他部分也会被mask，即全词Mask。
+- 取消Next Sentence Prediction（NSP）loss
+- Ref: https://github.com/ymcui/Chinese-BERT-wwm
+```
+### RoBERTa：
+```
+基于Bert的新的训练策略：
+
+1.用更长的时间，更大的batch size，更多的数据进行训练
+
+2.去掉BERT中的NSP目标(next sentence prediction)
+
+3.在更长的句子上进行训练
+
+4.在每次输入训练数据的时候，动态地改变mask的模式，这样可以避免在每个epoch中每个sequence被MASK的方式相同，提高了模型输入的数据的随机性，使得模型可以学习到更多地pattern。
+```
+### ALbert:
+```
+1.Embedding层因式分解
+
+2.跨层的参数共享
+
+3.Bert的Next sentence prediction预训练任务：二分类；训练数据的正样本：同一个文档中的两个连续的句子；负样本：采用两个不同的文档的句子。ALbert的sentence-order-prediction预训练任务：增加难度的二分类；训练数据的正样本：同一个文档中的两个连续的句子；负样本：把正样本的数据反转得到。
+```
+![dt2](../images/dt2.png)
+
+
