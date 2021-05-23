@@ -57,9 +57,13 @@ transformers 3.0.2
 - 4-3. [Transformer 模型](4-3.Transformer)
 - 4-4. [GPT 摘要生成](4-4.GPT)
 
-#### 5. algo
+#### 5. [QA](QA)
 
-该文件夹内记录一些leetcode经典算法题，部分解题思路搬运自leetcode题解。
+该文件夹内记录机器学习/深度学习一些知识点的简单总结。
+
+#### 6. [algo](algo)
+
+该文件夹内记录leetcode最热门的100道算法题，部分解题思路搬运自leetcode题解。
 
 ## 对应论文
 
