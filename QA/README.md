@@ -328,3 +328,12 @@ Ref：https://zhuanlan.zhihu.com/p/57965634
 # 25. Random forest
 
 ![q20](../images/q20.png)
+
+# 26. GBDT
+
+Ref：https://zhuanlan.zhihu.com/p/29765582
+
+- GBDT模型可以认为是是由k个基模型组成的一个加法运算式，拟合的是负梯度，当损失函数是MSE时，负梯度就是残差。
+
+- XGBoost的损失函数是一个带有正则项的二阶泰勒展开式。
+
