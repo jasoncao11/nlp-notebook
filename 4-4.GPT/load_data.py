@@ -87,7 +87,6 @@ valdataset = SummaryDataset(DEV_DATA_PATH, TOKENIZER_PATH, MAX_LEN)
 valdataloader = tud.DataLoader(valdataset, BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
 
 #tokenizer = BertTokenizer.from_pretrained(TOKENIZER_PATH)
-#print(len(tokenizer))
 #for batch_idx, batch_data in enumerate(traindataloader):
 #    print(batch_idx)
 #    input_ids = batch_data["input_ids"]
