@@ -31,7 +31,7 @@ def calculate_loss(outputs, labels, token_type_ids, summary_id):
     shift_logits = logits[..., :-1, :].contiguous()
     shift_labels = labels[..., 1:].contiguous()
     # 定义损失函数CrossEntropyLoss，并且设置忽略计算loss的索引，以及返回loss的形式
-    # 忽略shift_labels中为0的loss，也就是仅计算title部分的损失值
+    # 忽略shift_labels中为0的loss，也就是仅计算summary部分的损失值
     loss_fct = CrossEntropyLoss(ignore_index=0)
     loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1))
     return loss
