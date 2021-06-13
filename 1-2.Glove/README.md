@@ -14,6 +14,11 @@
 ![glove6](../images/glove6.png)
 ![glove7](../images/glove7.png)
 
+### 附SVD及应用
+![glove8](../images/svd1.png)
+![glove9](../images/svd2.png)
+![glove10](../images/svd3.png)
+
 ## 可视化
 
 Save the embedding along with the words to TSV files as shown below, upload these two TSV files to [Embedding Projector](https://projector.tensorflow.org/) for better visualization.
