@@ -7,18 +7,12 @@ class ClusterFeatures(object):
     """
     Basic handling of clustering features.
     """
-
-    def __init__(self, features, pca_k = None, random_state = 12345):
+    def __init__(self, pca_k, random_state):
         """
-        :param features: the embedding matrix created by bert parent.
         :param pca_k: If you want the features to be ran through pca, this is the components number.
         :param random_state: Random state.
         """
-        if pca_k:
-            self.features = PCA(n_components=pca_k).fit_transform(features)
-        else:
-            self.features = features
-
+        self.pca_k = pca_k
         self.random_state = random_state
 
     def __get_model(self, k):
@@ -37,9 +31,10 @@ class ClusterFeatures(object):
         """
         return model.cluster_centers_
 
-    def __find_closest_args(self, centroids):
+    def __find_closest_args(self, features, centroids):
         """
         Find the closest arguments to centroid.
+        :param features: the embedding matrix created by bert parent.
         :param centroids: Centroids to find closest.
         :return: Closest arguments.
         """
@@ -49,41 +44,41 @@ class ClusterFeatures(object):
         used_idx = []
 
         for j, centroid in enumerate(centroids):
-
-            for i, feature in enumerate(self.features):
+            for i, feature in enumerate(features):
                 value = np.linalg.norm(feature - centroid)
-
                 if value < centroid_min and i not in used_idx:
                     cur_arg = i
                     centroid_min = value
-
             used_idx.append(cur_arg)
             args[j] = cur_arg
             centroid_min = 1e10
             cur_arg = -1
-
         return args
 
-    def cluster(self, num_sentences, ratio = 0.1):
+    def cluster(self, features, num_sentences, ratio):
         """
         Clusters sentences based on the ratio.
-        :param ratio: Ratio to use for clustering.
+        :param features: the embedding matrix created by bert parent.
         :param num_sentences: Number of sentences. Overrides ratio.
+        :param ratio: Ratio to use for clustering.
         :return: Sentences index that qualify for summary.
         """
-
+        if self.pca_k:
+            features = PCA(n_components=self.pca_k).fit_transform(features)
+        
         if num_sentences is not None:
             if num_sentences == 0:
                 return []
-
-            k = min(num_sentences, len(self.features))
+            k = min(num_sentences, len(features))
         else:
-            k = max(int(len(self.features) * ratio), 1)
+            k = max(int(len(features) * ratio), 1)
 
-        model = self.__get_model(k).fit(self.features)
-
+        model = self.__get_model(k).fit(features)
         centroids = self.__get_centroids(model)
-        cluster_args = self.__find_closest_args(centroids)
-
+        cluster_args = self.__find_closest_args(features, centroids)
         sorted_values = sorted(cluster_args.values())
         return sorted_values
+    
+    def __call__(self, features, num_sentences, ratio):
+        return self.cluster(features, num_sentences, ratio)
+    
