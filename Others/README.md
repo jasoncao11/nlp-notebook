@@ -93,12 +93,12 @@ scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=int(0.1 
 
 model.train()
 for epoch in range(N_EPOCHS):
-    iter_bar = tqdm(traindataloader, desc="Iter (loss=X.XXX)", disable=False)
+    iter_bar = tqdm(traindataloader, desc="Iteration", disable=False)
     for step, batch in enumerate(iter_bar):
         input_ids = batch["input_ids"].to(device)
         token_type_ids = batch["token_type_ids"].to(device) 
         model.zero_grad()
-        outputs = model.forward(input_ids=input_ids, token_type_ids=token_type_ids)
+        outputs = model(input_ids=input_ids, token_type_ids=token_type_ids)
         loss = outputs[0]
         loss.backward()
         #对抗训练
