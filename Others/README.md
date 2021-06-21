@@ -75,3 +75,24 @@ if __name__ == '__main__':
     targets = torch.tensor([0,2,1]).long()
     print(CrossEntropyLoss_label_smooth(outputs, targets))
 ```
+
+### (5). weight decay
+```
+# Prepare optimizer and schedule (linear warmup and decay)
+no_decay = ['bias', 'LayerNorm.weight']
+optimizer_grouped_parameters = [
+    {'params': [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
+     'weight_decay': 0.01},
+    {'params': [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
+]
+
+optimizer = AdamW(optimizer_grouped_parameters, lr=2e-5, eps=1e-8)
+
+if args.fp16:
+    try:
+        from apex import amp
+    except ImportError:
+        raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
+    model, optimizer = amp.initialize(model, optimizer, opt_level=args.fp16_opt_level)
+
+```
