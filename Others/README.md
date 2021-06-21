@@ -77,6 +77,7 @@ if __name__ == '__main__':
 ```
 
 ### (5). weight decay
+- Demo：
 ```
 # Prepare optimizer and schedule (linear warmup and decay)
 no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
