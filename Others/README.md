@@ -101,6 +101,7 @@ for epoch in range(N_EPOCHS):
         outputs = model.forward(input_ids=input_ids, token_type_ids=token_type_ids)
         loss = outputs[0]
         loss.backward()
+        #对抗训练
         torch.nn.utils.clip_grad_norm_(model.parameters(), MAX_GRAD_NORM)
         optimizer.step()
         scheduler.step()
