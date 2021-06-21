@@ -102,7 +102,7 @@ for epoch in range(N_EPOCHS):
         loss = outputs[0]
         loss.backward()
         #对抗训练
-        torch.nn.utils.clip_grad_norm_(model.parameters(), MAX_GRAD_NORM)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
         scheduler.step()
 ```
