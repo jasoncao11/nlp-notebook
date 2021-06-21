@@ -2,7 +2,7 @@
 import torch
 from transformers import BertTokenizer
 import torch.nn.functional as F
-from transformers.modeling_gpt2 import GPT2LMHeadModel
+from transformers import GPT2LMHeadModel
 
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 max_len = 512 #输入模型的最大长度，要比config中n_ctx小
