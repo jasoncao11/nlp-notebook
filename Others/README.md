@@ -53,7 +53,7 @@ for batch_input, batch_label in data:
 - [华为开源的tinyBert数据增强方法](https://github.com/huawei-noah/Pretrained-Language-Model/blob/master/TinyBERT/data_augmentation.py#L146)
 
 ### (4). 标签平滑
-- 标签平滑后的分布就相当于往真实分布中加入了噪声，避免模型对于正确标签过于自信，使得预测正负样本的输出值差别不那么大，从而避免过拟合，提高模型的泛化能力。
+- 标签平滑后的分布就相当于往真实分布中加入了噪声，避免模型对于正确标签过于自信，使得预测正负样本的输出值差别不那么大，从而避免过拟合，提高模型的泛化能力。但是在模型蒸馏中使用Label smoothing会导致性能下降。
 - 代码：
 ```
 import torch
