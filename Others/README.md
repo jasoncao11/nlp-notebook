@@ -79,20 +79,28 @@ if __name__ == '__main__':
 ### (5). weight decay
 ```
 # Prepare optimizer and schedule (linear warmup and decay)
-no_decay = ['bias', 'LayerNorm.weight']
+no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
 optimizer_grouped_parameters = [
     {'params': [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
      'weight_decay': 0.01},
     {'params': [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
 ]
 
+total_steps = len(traindataloader) * N_EPOCHS
 optimizer = AdamW(optimizer_grouped_parameters, lr=2e-5, eps=1e-8)
+scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=int(0.1 * total_steps), num_training_steps=total_steps)
 
-if args.fp16:
-    try:
-        from apex import amp
-    except ImportError:
-        raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
-    model, optimizer = amp.initialize(model, optimizer, opt_level=args.fp16_opt_level)
-
+model.train()
+for epoch in range(N_EPOCHS):
+    iter_bar = tqdm(traindataloader, desc="Iter (loss=X.XXX)", disable=False)
+    for step, batch in enumerate(iter_bar):
+        input_ids = batch["input_ids"].to(device)
+        token_type_ids = batch["token_type_ids"].to(device) 
+        model.zero_grad()
+        outputs = model.forward(input_ids=input_ids, token_type_ids=token_type_ids)
+        loss = outputs[0]
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), MAX_GRAD_NORM)
+        optimizer.step()
+        scheduler.step()
 ```
