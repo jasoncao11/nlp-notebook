@@ -53,8 +53,9 @@ transformers 3.0.2
 - 4-2. [Seq2seq 模型+注意力机制](4-2.Seq2seq_Att)
 - 4-3. [Transformer 模型](4-3.Transformer)
 - 4-4. [GPT 摘要生成](4-4.GPT)
+- 4-5. [Bert-seq2seq](4-5.Bert-seq2seq)
 #### 2). 抽取式
-- 4-5. [Bert-extractive-summarizer](4-5.Bert-extractive-summarizer)
+- 4-6. [Bert-extractive-summarizer](4-6.Bert-extractive-summarizer)
 
 ### 5. [QA](QA)
 
