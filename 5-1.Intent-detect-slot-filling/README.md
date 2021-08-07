@@ -7,4 +7,4 @@
 - https://arxiv.org/pdf/2010.03880.pdf
 
 ## Train
-![Co-Interactive Transformer1](../images/i_s_2.png)
+![Co-Interactive Transformer1](../images/i_s_2.jpg)
