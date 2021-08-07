@@ -1,0 +1,17 @@
+0,start,开始,basic_control,基础控制
+1,pause,暂停,basic_control,基础控制
+2,continue,继续,basic_control,基础控制
+3,cancel,取消,basic_control,基础控制
+4,back,返回,basic_control,基础控制
+5,choose_by_index,选择_按第几个,basic_control,基础控制
+6,voice_up,声音_大,voice_control,声音控制
+7,voice_down,声音_小,voice_control,声音控制
+8,voice_control_by_num,声音_指定大小,voice_control,声音控制
+9,screen_up,亮度_大,screen_control,亮度控制
+10,screen_down,亮度_小,screen_control,亮度控制
+11,screen_control_by_num,亮度_指定大小,screen_control,亮度控制
+12,search_course,查找课程,before_class,课前准备
+13,previous_section,上一环节,in_class,课中训练
+14,next_section,下一环节,in_class,课中训练
+15,exit,退出课程,in_class,课中训练
+16,others
