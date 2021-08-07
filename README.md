@@ -58,7 +58,8 @@ transformers 3.0.2
 - 4-6. [Bert-extractive-summarizer](4-6.Bert-extractive-summarizer)
 
 ### 5. 意图识别与文本生成
-- 5-1. [Co-Interactive Transformer 模型](5-1.Co-Interactive Transformer)
+
+- 5-1. [Co-Interactive-Transformer 模型](5-1.Co-Interactive-Transformer)
 
 ### 6. [QA](QA)
 
