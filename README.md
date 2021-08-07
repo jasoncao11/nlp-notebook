@@ -57,11 +57,14 @@ transformers 3.0.2
 #### 2). 抽取式
 - 4-6. [Bert-extractive-summarizer](4-6.Bert-extractive-summarizer)
 
-### 5. [QA](QA)
+### 5. 意图识别与文本生成
+- 5-1. [Co-Interactive Transformer 模型](4-1.Seq2seq)
+
+### 6. [QA](QA)
 
 该文件夹内记录机器学习/深度学习一些知识点的简单总结。
 
-### 6. [algo](algo)
+### 7. [algo](algo)
 
 该文件夹内记录leetcode最热门的100道算法题，部分解题思路搬运自leetcode题解。
 
