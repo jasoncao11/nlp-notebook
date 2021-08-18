@@ -57,9 +57,9 @@ transformers 3.0.2
 #### 2). 抽取式
 - 4-6. [Bert-extractive-summarizer](4-6.Bert-extractive-summarizer)
 
-### 5. 意图识别与文本生成
+### 5. [PaperwithCode](PaperwithCode)
 
-- 5-1. [Co-Interactive-Transformer 模型](5-1.Co-Interactive-Transformer)
+该文件夹记录一些paper及其所对应的模型代码。
 
 ### 6. [QA](QA)
 
