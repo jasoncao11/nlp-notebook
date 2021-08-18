@@ -1,5 +1,6 @@
 # A Co-Interactive Transformer for Joint Slot Filling and Intent Detection
 
+## Structure
 ![Co-Interactive Transformer](../images/i_s_1.png)
 
 ## Reference
