@@ -59,7 +59,10 @@ transformers 3.0.2
 
 ### 5. [PaperwithCode](5.PaperwithCode)
 
-该文件夹记录一些paper及其所对应的模型代码。
+该文件夹记录一些paper及其所对应的模型代码:
+- 5.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/5.PaperwithCode/1.Co-Interactive-Transformer)
+- 5.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/5.PaperwithCode/2.DSSM)
+- 5.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/5.PaperwithCode/3.P-tuning)
 
 ### 6. [QA](QA)
 
@@ -68,25 +71,3 @@ transformers 3.0.2
 ### 7. [algo](algo)
 
 该文件夹内记录leetcode最热门的100道算法题，部分解题思路搬运自leetcode题解。
-
-## 对应论文
-
-[1] Convolutional Neural Networks for Sentence Classification
-
-[2] Recurrent Neural Network for Text Classification with Multi-Task Learning
-
-[3] Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification
-
-[4] Recurrent Convolutional Neural Networks for Text Classification
-
-[5] Bag of Tricks for Efficient Text Classification
-
-[6] Deep Pyramid Convolutional Neural Networks for Text Categorization
-
-[7] Attention Is All You Need
-
-[8] Global Vectors for Word Representation
-
-[9] [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215)
-
-[10] [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473)
