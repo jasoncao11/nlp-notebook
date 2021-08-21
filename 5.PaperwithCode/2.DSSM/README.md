@@ -1,5 +1,8 @@
 # Learning Deep Structured Semantic Models for Web Search using Clickthrough Data
 
+## Structure
+![DSSM](../../images/DSSM.png)
+
 ## Reference
 - https://github.com/ChrisCN97/DSSM-Pytorch
 - https://www.cnblogs.com/hejunlin1992/p/8723816.html
