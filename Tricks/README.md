@@ -7,6 +7,7 @@
 
 ### (2). 对抗训练 
 - [NLP中的对抗训练 + PyTorch实现](https://zhuanlan.zhihu.com/p/91269728)
+![r-drop](../images/fgm.png)
 - 代码：
 ```
 import torch
