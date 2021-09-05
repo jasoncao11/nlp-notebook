@@ -31,6 +31,7 @@ transformers 3.0.2
 - 2-6. [XGBoost](2-6.XGboost)
 - 2-7. [Distill_& fine tune Bert](2-7.Distill_finetune_Bert)
 - 2-8. [Pattern-Exploiting-Training 利用MLM做文本分类](2-8.Pattern-Exploiting-Training)
+- 2-8. [R-Drop](2-9.R-drop)
  
 数据集(data文件夹)： 二分类舆情数据集，划分如下：
 
