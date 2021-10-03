@@ -3,7 +3,7 @@ import unicodedata
 
 class Tokenizer():
 
-    with open("/content/gdrive/My Drive/bert-base-chinese/vocab.txt", encoding="utf-8") as f:
+    with open("./bert-base-chinese/vocab.txt", encoding="utf-8") as f:
         lines = f.readlines()
     word2idx = {}
     for index, line in enumerate(lines):
