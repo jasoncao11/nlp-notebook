@@ -5,21 +5,20 @@ import numpy as np
 from tqdm import tqdm
 from transformers import AdamW, get_linear_schedule_with_warmup
 from load_data import traindataloader, valdataloader
-from tokenizer import load_chinese_base_vocab
-from seq2seq_model import Seq2SeqModel
+from model import BertForSeq2Seq
 
-N_EPOCHS = 10
+N_EPOCHS = 30
 LR = 5e-4
 WARMUP_PROPORTION = 0.1
 MAX_GRAD_NORM = 1.0
-MODEL_PATH = './bert-base-chinese/pytorch_model.bin'
-VOCAB_PATH = './bert-base-chinese/vocab.txt'
-word2idx, keep_tokens = load_chinese_base_vocab(VOCAB_PATH, simplfied=True)
+MODEL_PATH = './bert-base-chinese'
+SAVE_PATH = './saved_models/pytorch_model.bin'
+device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 def run():
     best_valid_loss = float('inf')
-    model = Seq2SeqModel(word2idx)
-    model.load_pretrain_params(MODEL_PATH, keep_tokens=keep_tokens)
+    model = BertForSeq2Seq.from_pretrained(MODEL_PATH)
+    model.to(device)
 
     no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
     optimizer_grouped_parameters = [
@@ -36,23 +35,19 @@ def run():
     loss_vals_eval = []
     for epoch in range(N_EPOCHS):
         model.train()
-        epoch_loss= []
+        epoch_loss = []
         pbar = tqdm(traindataloader)
         pbar.set_description("[Train Epoch {}]".format(epoch)) 
     
         for batch_idx, batch_data in enumerate(pbar):
             
-            input_ids = batch_data["input_ids"]
-            token_type_ids = batch_data["token_type_ids"]
-            token_type_ids_for_mask = batch_data["token_type_ids_for_mask"]
-            target_ids = batch_data["target_ids"]
+            input_ids = batch_data["input_ids"].to(device)
+            token_type_ids = batch_data["token_type_ids"].to(device)
+            token_type_ids_for_mask = batch_data["token_type_ids_for_mask"].to(device)
+            labels = batch_data["labels"].to(device)
                        
             model.zero_grad()
-            predictions, loss = model.forward(input_tensor=input_ids, 
-                                              token_type_id=token_type_ids, 
-                                              token_type_id_for_mask=token_type_ids_for_mask, 
-                                              labels=target_ids)
-            
+            predictions, loss = model(input_ids, token_type_ids, token_type_ids_for_mask, labels)           
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), MAX_GRAD_NORM)
             epoch_loss.append(loss.item())
@@ -67,14 +62,11 @@ def run():
         
         with torch.no_grad():
             for batch_idx, batch_data in enumerate(pbar):
-                input_ids = batch_data["input_ids"]
-                token_type_ids = batch_data["token_type_ids"]
-                token_type_ids_for_mask = batch_data["token_type_ids_for_mask"]
-                target_ids = batch_data["target_ids"]
-                predictions, loss = model.forward(input_tensor=input_ids, 
-                                                  token_type_id=token_type_ids, 
-                                                  token_type_id_for_mask=token_type_ids_for_mask, 
-                                                  labels=target_ids)                    
+                input_ids = batch_data["input_ids"].to(device)
+                token_type_ids = batch_data["token_type_ids"].to(device)
+                token_type_ids_for_mask = batch_data["token_type_ids_for_mask"].to(device)
+                labels = batch_data["labels"].to(device)
+                predictions, loss = model.forward(input_ids, token_type_ids, token_type_ids_for_mask, labels)                    
                 epoch_loss_eval.append(loss.item())
                 
         valid_loss = np.mean(epoch_loss_eval)
@@ -82,18 +74,12 @@ def run():
     
         if valid_loss < best_valid_loss:
             best_valid_loss = valid_loss
-            model.save_all_params('model.pt')
+            torch.save(model.state_dict(), SAVE_PATH)
         torch.cuda.empty_cache()
-        
+   
     l1, = plt.plot(np.linspace(1, N_EPOCHS, N_EPOCHS).astype(int), loss_vals)
     l2, = plt.plot(np.linspace(1, N_EPOCHS, N_EPOCHS).astype(int), loss_vals_eval)
     plt.legend(handles=[l1,l2],labels=['Train loss','Eval loss'],loc='best')
-
-def predict(text):
-    model = Seq2SeqModel(word2idx)
-    model.eval()
-    model.load_all_params('model.pt')
-    print(model.sample_generate(text,top_k=5, top_p=0.95))
     
 if __name__ == '__main__':
     run()
