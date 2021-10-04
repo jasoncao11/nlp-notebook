@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 saved_models文件夹包含两个文件：
-1).在原有bert-base-chinese基础上预训练的pytorch_model.bin
+1).在原有bert-base-chinese基础上fine-tune的pytorch_model.bin
 2).配置文件config.json，和原有bert-base-chinese的配置文件一样
 '''
 import torch 
@@ -45,6 +45,7 @@ def sample_generate(text, model_path, out_max_length=40, top_k=30, top_p=0.0, ma
 
     model = BertForSeq2Seq.from_pretrained(model_path)
     model.to(device)
+    model.eval()
 
     input_max_length = max_length - out_max_length
     input_ids, token_type_ids, token_type_ids_for_mask, labels = Tokenizer.encode(text, max_length=input_max_length)
