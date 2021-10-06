@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 import torch
-from model import BiLSTM_CRF_PARALLEL
-from settings import EMBEDDING_DIM, HIDDEN_DIM, TEST_DATA_PATH
+from model import BiLSTM_CRF
 from load_data import vocab2idx, idx2vocab, label2idx, idx2label, data_generator
 
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 
-model = BiLSTM_CRF_PARALLEL(len(vocab2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
-model.load_state_dict(torch.load("./saved_model/model.pth"))
+EMBEDDING_DIM = 300
+HIDDEN_DIM = 64
+BATCH_SIZE = 1
+TEST_DATA_PATH = "./data/test_data" # 测试数据
+
+model = BiLSTM_CRF(len(vocab2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
+model.load_state_dict(torch.load("./saved_model/model.pth", map_location=device))
 model.eval()
 
-def predict(sent, tags):
+def extract(sent, tags):
     result = []
     pre = ''
     w = []
@@ -35,25 +39,27 @@ gold_num = 0
 predict_num = 0
 correct_num = 0
 
-for sentence, tags in data_generator(TEST_DATA_PATH, vocab2idx, label2idx):
-    for sent_, tag_ in zip(sentence, tags):
-        sent = [idx2vocab[ix.item()] for ix in sent_]
-        print (f"Sent: {''.join(sent).replace('<PAD>', '')}")
-        tags = [idx2label[ix.item()] for ix in tag_]
-        ner = predict(sent, tags)
-        gold_num += len(ner)
+for inputs_idx_batch, labels_idx_batch, real_lengths in data_generator(TEST_DATA_PATH, vocab2idx, label2idx, BATCH_SIZE):
+    print(inputs_idx_batch)
+    print(labels_idx_batch)
+    if len(inputs_idx_batch) > 0:
+        sent = [idx2vocab[ix.item()] for ix in inputs_idx_batch[0]]
+        print(f"Sent: {''.join(sent)}")
+        labels = [idx2label[ix.item()] for ix in labels_idx_batch[0]]
+        entities = extract(sent, labels)
+        gold_num += len(entities)
+        print (f'NER: {entities}')
+
+        res = model(inputs_idx_batch.to(device))
+        pred_labels = [idx2label[ix] for ix in res[1]]
         
-        print (f'NER: {ner}')       
-        pred = model(sent_.unsqueeze(0).to(device))
-        pre_tags = [idx2label[ix] for ix in pred[0][1]]
-        
-        pred_ner = predict(sent, pre_tags)
-        predict_num += len(pred_ner)
-        print (f'Predicted NER: {pred_ner}')
+        pred_entities = extract(sent, pred_labels)
+        predict_num += len(pred_entities)
+        print (f'Predicted NER: {pred_entities}')
         print ('---------------\n')
         
-        for pred in pred_ner:
-            if pred in ner:
+        for pred in pred_entities:
+            if pred in entities:
                 correct_num += 1
 
 print(f'gold_num = {gold_num}')

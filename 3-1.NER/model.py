@@ -1,33 +1,45 @@
 # -*- coding: utf-8 -*-
 import torch
 import torch.nn as nn
-from settings import START_TAG, STOP_TAG
+from load_data import START_TAG, STOP_TAG
 
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 def log_sum_exp(smat):
+    '''
+    for example:
+    输入:
+    tensor([[[0.5840, 0.6834, 0.8859, 0.6457],
+         [0.3828, 0.6881, 0.3363, 0.3396],
+         [0.9382, 0.5262, 0.4825, 0.4868]],
+
+        [[0.3437, 0.0670, 0.6303, 0.8735],
+         [0.2810, 0.3536, 0.8671, 0.1565],
+         [0.4990, 0.4223, 0.2033, 0.6486]]])
+    输出:
+    tensor([[[1.7604, 1.7339, 1.6947, 1.5972]],
+
+        [[1.4774, 1.3910, 1.7017, 1.7007]]])
+    '''
     vmax = smat.max(dim=1, keepdim=True).values
     return (smat - vmax).exp().sum(axis=1, keepdim=True).log() + vmax
 
-class BiLSTM_CRF_PARALLEL(nn.Module):
+class BiLSTM_CRF(nn.Module):
 
     def __init__(self, vocab_size, label2idx, embedding_dim, hidden_dim):
-        super(BiLSTM_CRF_PARALLEL, self).__init__()
+        super(BiLSTM_CRF, self).__init__()
         self.embedding_dim = embedding_dim
         self.hidden_dim = hidden_dim
         self.vocab_size = vocab_size
         self.label2idx = label2idx
-        self.tagset_size = len(label2idx)
+        self.label_size = len(label2idx)
 
         self.word_embeds = nn.Embedding(self.vocab_size, self.embedding_dim)
-        self.lstm = nn.LSTM(self.embedding_dim, self.hidden_dim // 2,
-                            num_layers=1, bidirectional=True, batch_first=True)
+        self.lstm = nn.LSTM(self.embedding_dim, self.hidden_dim // 2, num_layers=1, bidirectional=True, batch_first=True)
 
-        self.hidden2tag = nn.Linear(self.hidden_dim, self.tagset_size)
+        self.hidden2label = nn.Linear(self.hidden_dim, self.label_size)
 
-        self.transitions = nn.Parameter(
-            torch.randn(self.tagset_size, self.tagset_size))
-
+        self.transitions = nn.Parameter(torch.randn(self.label_size, self.label_size)) #转移矩阵，表示从某一列的label转移至某一行的label的TransitionScore
         self.transitions.data[label2idx[START_TAG], :] = -10000
         self.transitions.data[:, label2idx[STOP_TAG]] = -10000
        
@@ -35,59 +47,99 @@ class BiLSTM_CRF_PARALLEL(nn.Module):
         return (torch.randn(2, bs, self.hidden_dim // 2).to(device),
                 torch.randn(2, bs, self.hidden_dim // 2).to(device))
 
-    def _forward_alg_parallel(self, frames):
-        alpha = torch.full((frames.shape[0], self.tagset_size), -10000.0).to(device)
-        alpha[:, self.label2idx[START_TAG]] = 0.
-        for frame in frames.transpose(0,1):
-            alpha = log_sum_exp(alpha.unsqueeze(-1) + frame.unsqueeze(1) + self.transitions.T).squeeze(1)
-        alpha = log_sum_exp(alpha.unsqueeze(-1) + 0 + self.transitions[[self.label2idx[STOP_TAG]], :].T).flatten()
-        return alpha
-
-    def _get_lstm_features_parallel(self, sentences_idx_batch):
-        hidden = self.init_hidden(len(sentences_idx_batch))
-        embeds = self.word_embeds(sentences_idx_batch)
-        lstm_out, hidden_out = self.lstm(embeds, hidden)    
-        lstm_feats = self.hidden2tag(lstm_out)      
+    def get_lstm_features(self, x):
+        #x:[batch size, seq len]
+        hidden = self.init_hidden(len(x))
+        embeds = self.word_embeds(x) #[batch size, seq len, embedding_dim]
+        lstm_out, hidden_out = self.lstm(embeds, hidden) #lstm_out: [batch size, seq len, hidden_dim]    
+        lstm_feats = self.hidden2label(lstm_out) #[batch size, seq len, label_size]     
         return lstm_feats
 
-    def _score_sentence_parallel(self, feats, tags_idx_batch):
-        score = torch.zeros(tags_idx_batch.shape[0]).to(device)
-        tags = torch.cat([torch.full([tags_idx_batch.shape[0],1],self.label2idx[START_TAG], dtype=torch.long).to(device),tags_idx_batch], dim=1).to(device)
-        for i in range(feats.shape[1]):
-            feat=feats[:,i,:]
-            score = score + \
-                    self.transitions[tags[:,i + 1], tags[:,i]] + feat[range(feat.shape[0]),tags[:,i + 1]]
-        score = score + self.transitions[self.label2idx[STOP_TAG], tags[:,-1]]
-        return score
+    def get_total_scores(self, frames, real_lengths):
+        '''
+        得到所有可能路径的分数总和
+        '''
+        #frames：[batch size, seq len, label_size]
+        #real_lengths：[batch size]
+        alpha = torch.full((frames.shape[0], self.label_size), -10000.0).to(device) #[batch size, label_size]
+        alpha[:, self.label2idx[START_TAG]] = 0. #初始状态的EmissionScore. START_TAG是0, 其他都是很小的值 "-10000"
+        alpha_ = torch.zeros((frames.shape[0], self.label_size)).to(device) #[batch size, label_size]
+        frames = frames.transpose(0,1) #[seq len, batch size, label_size]
+        index = 0 
+        for frame in frames:
+            index += 1
+            #alpha.unsqueeze(-1):当前各状态的分值分布,[batch size, label_size, 1]
+            #frame.unsqueeze(1):发射分值,[batch size, 1, label_size]
+            #self.transitions.T:转移矩阵,[label_size, label_size]
+            #三者相加会广播,维度为[batch size, label_size, label_size], log_sum_exp后的维度为[batch size, 1, label_size]
+            alpha = log_sum_exp(alpha.unsqueeze(-1) + frame.unsqueeze(1) + self.transitions.T).squeeze(1)#[batch size, label_size]
 
-    def _viterbi_decode_parallel(self, feats):
-        backtrace = []
-        alpha = torch.full((feats.shape[0], self.tagset_size), -10000.0).to(device)
-        alpha[:, self.label2idx[START_TAG]] = 0.        
-        for i in range(feats.shape[1]):
-            feat=feats[:,i,:]
-            smat = alpha.unsqueeze(-1) + feat.unsqueeze(1) + self.transitions.T
-            alpha, idx = torch.max(smat, 1)
+            for idx, length in enumerate(real_lengths):
+              if length == index:
+                alpha_[idx] = alpha[idx]
+        #最后转到EOS，发射分值为0，转移分值为 self.transitions[[self.label2idx[STOP_TAG]], :].T
+        #alpha.unsqueeze(-1): [batch size, label_size, 1]
+        #self.transitions[[self.label2idx[STOP_TAG]], :].T: [label_size, 1]
+        #三者相加会广播,维度为[batch size, label_size, 1], log_sum_exp后的维度为[batch size, 1, 1]
+        alpha_ = log_sum_exp(alpha_.unsqueeze(-1) + 0 + self.transitions[[self.label2idx[STOP_TAG]], :].T).flatten()#[batch size]
+        return alpha_
+
+    def get_golden_scores(self, feats, labels_idx_batch, real_lengths):
+        '''
+        得到正确路径的得分
+        '''
+        #feats[batch size, seq len, label_size]
+        #labels_idx_batch:[batch size, seq len]
+        #real_lengths：[batch size]
+        score = torch.zeros(labels_idx_batch.shape[0]).to(device)#[batch size]
+        score_ = torch.zeros(labels_idx_batch.shape[0]).to(device)#[batch size]
+        labels = torch.cat([torch.full([labels_idx_batch.shape[0],1],self.label2idx[START_TAG], dtype=torch.long).to(device),labels_idx_batch], dim=1)#[batch size, seq len+1],注意不要+[STOP_TAG]; 结尾有处理
+        index = 0
+        for i in range(feats.shape[1]): # 沿途累加每一帧的转移和发射
+            index += 1
+            feat=feats[:,i,:]#[batch size, label_size]
+            score += self.transitions[labels[:,i + 1], labels[:,i]] + feat[range(feat.shape[0]),labels[:,i + 1]]#[batch size]
+
+            for idx, length in enumerate(real_lengths):
+              if length == index:
+                score_[idx] = score[idx]
+
+        score_ = score_ + self.transitions[self.label2idx[STOP_TAG], labels[:,-1]] #[batch size],加上到STOP_TAG的转移
+        return score_
+
+    def viterbi_decode(self, frames):
+        backtrace = [] # 回溯路径;  backtrace[i][j] := 第i帧到达j状态的所有路径中, 得分最高的那条在i-1帧是神马状态
+        alpha = torch.full((1, self.label_size), -10000.).to(device)
+        alpha[0][self.label2idx[START_TAG]] = 0
+        for frame in frames:
+            # 这里跟get_total_scores稍有不同: 需要求最优路径（而非一个总体分值）, 所以还要对smat求column_max
+            smat = alpha.T + frame.unsqueeze(0) + self.transitions.T
+            
+            val, idx = torch.max(smat, 0)
             backtrace.append(idx)
+            alpha = val.unsqueeze(0)
+
+        # 回溯路径
         smat = alpha.T + 0 + self.transitions[[self.label2idx[STOP_TAG]], :].T
-        val, idx = torch.max(smat, 0)        
-        best_path = [[x.item()] for x in idx]
-        for bptrs_t in reversed(backtrace[1:]):
-            for i in range(feats.shape[0]):
-                best_tag_id = bptrs_t[i][best_path[i][-1]].item()
-                best_path[i].append(best_tag_id)        
-        result = []
-        for score, tag in zip(val, best_path):
-            result.append((score.item(), tag[::-1]))
-        return result
+        
+        val, idx = torch.max(smat, 0)
+        best_tag_id = idx.item()
+              
+        best_path = [best_tag_id]
+        for bptrs_t in reversed(backtrace[1:]): # 从[1:]开始，去掉开头的 START_TAG
+            best_tag_id = bptrs_t[best_tag_id].item()
+            best_path.append(best_tag_id)
+        return val.item(), best_path[::-1] # 返回最优路径分值和最优路径
 
-    def neg_log_likelihood_parallel(self, sentences_idx_batch, tags_idx_batch):
-        feats = self._get_lstm_features_parallel(sentences_idx_batch)
-        forward_score = self._forward_alg_parallel(feats)
-        gold_score = self._score_sentence_parallel(feats, tags_idx_batch)
-        return torch.mean(forward_score - gold_score)
+    def neg_log_likelihood(self, inputs_idx_batch, labels_idx_batch, real_lengths):
+        feats = self.get_lstm_features(inputs_idx_batch)
+        total_scores = self.get_total_scores(feats, real_lengths)
+        gold_score = self.get_golden_scores(feats, labels_idx_batch, real_lengths)
+        return torch.mean(total_scores - gold_score)
 
-    def forward(self, sentences_idx_batch):      
-        lstm_feats = self._get_lstm_features_parallel(sentences_idx_batch)
-        result = self._viterbi_decode_parallel(lstm_feats)
+    def forward(self, inputs_idx_batch): 
+        #inputs_idx_batch:[batch size(1), seq len]     
+        lstm_feats = self.get_lstm_features(inputs_idx_batch)
+        lstm_feats = lstm_feats.squeeze(0) #[seq len, label_size]
+        result = self.viterbi_decode(lstm_feats)
         return result

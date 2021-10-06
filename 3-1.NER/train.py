@@ -4,15 +4,21 @@ import torch
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
-from model import BiLSTM_CRF_PARALLEL
-from settings import EMBEDDING_DIM, HIDDEN_DIM, EPOCHS, TRAIN_DATA_PATH
+from model import BiLSTM_CRF
 from load_data import vocab2idx, label2idx, data_generator
+
+EMBEDDING_DIM = 300
+HIDDEN_DIM = 64
+BATCH_SIZE = 512
+EPOCHS = 50
+
+TRAIN_DATA_PATH = "./data/train_data" # 训练数据
+
 
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 
-model = BiLSTM_CRF_PARALLEL(len(vocab2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
+model = BiLSTM_CRF(len(vocab2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
 model.train()
-#optimizer = optim.SGD(model.parameters(), lr=0.001, weight_decay=1e-4)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 start = time.time()
@@ -20,10 +26,10 @@ start = time.time()
 loss_vals = []
 for epoch in range(EPOCHS):
     epoch_loss= []
-    for sentence, tags in data_generator(TRAIN_DATA_PATH, vocab2idx, label2idx):
-        sentences_idx_batch , tags_idx_batch  = sentence.to(device), tags.to(device)
+    for inputs_idx_batch, labels_idx_batch, real_lengths in data_generator(TRAIN_DATA_PATH, vocab2idx, label2idx, BATCH_SIZE):
+        inputs_idx_batch, labels_idx_batch  = inputs_idx_batch.to(device), labels_idx_batch.to(device)
         model.zero_grad()
-        loss = model.neg_log_likelihood_parallel(sentences_idx_batch, tags_idx_batch)
+        loss = model.neg_log_likelihood(inputs_idx_batch, labels_idx_batch, real_lengths)
         loss.backward()
         epoch_loss.append(loss.item())
         optimizer.step()
