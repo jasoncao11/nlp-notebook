@@ -41,11 +41,10 @@ transformers 3.0.2
 验证集|7000
 测试集|6300
 
-### 3. 实体识别 
+### 3. 实体识别NER 
 
 - 3-1. [BILSTM_CRF_NER](3-1.BiLSTM_CRF)
-
-数据集在 NER/data 文件夹内
+- 3-2. [Lattice_LSTM](3-2.Lattice_LSTM)
 
 ### 4. 文本摘要生成
 
