@@ -43,7 +43,7 @@ transformers 3.0.2
 
 ### 3. 实体识别 
 
-- 3-1. [BILSTM_CRF_NER](3-1.NER)
+- 3-1. [BILSTM_CRF_NER](3-1.BiLSTM_CRF)
 
 数据集在 NER/data 文件夹内
 

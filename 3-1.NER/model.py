@@ -26,15 +26,15 @@ def log_sum_exp(smat):
 
 class BiLSTM_CRF(nn.Module):
 
-    def __init__(self, vocab_size, label2idx, embedding_dim, hidden_dim):
+    def __init__(self, char_size, label2idx, embedding_dim, hidden_dim):
         super(BiLSTM_CRF, self).__init__()
         self.embedding_dim = embedding_dim
         self.hidden_dim = hidden_dim
-        self.vocab_size = vocab_size
+        self.char_size = char_size
         self.label2idx = label2idx
         self.label_size = len(label2idx)
 
-        self.word_embeds = nn.Embedding(self.vocab_size, self.embedding_dim)
+        self.char_embeds = nn.Embedding(self.char_size, self.embedding_dim)
         self.lstm = nn.LSTM(self.embedding_dim, self.hidden_dim // 2, num_layers=1, bidirectional=True, batch_first=True)
 
         self.hidden2label = nn.Linear(self.hidden_dim, self.label_size)
@@ -50,7 +50,7 @@ class BiLSTM_CRF(nn.Module):
     def get_lstm_features(self, x):
         #x:[batch size, seq len]
         hidden = self.init_hidden(len(x))
-        embeds = self.word_embeds(x) #[batch size, seq len, embedding_dim]
+        embeds = self.char_embeds(x) #[batch size, seq len, embedding_dim]
         lstm_out, hidden_out = self.lstm(embeds, hidden) #lstm_out: [batch size, seq len, hidden_dim]    
         lstm_feats = self.hidden2label(lstm_out) #[batch size, seq len, label_size]     
         return lstm_feats
@@ -84,21 +84,21 @@ class BiLSTM_CRF(nn.Module):
         alpha_ = log_sum_exp(alpha_.unsqueeze(-1) + 0 + self.transitions[[self.label2idx[STOP_TAG]], :].T).flatten()#[batch size]
         return alpha_
 
-    def get_golden_scores(self, feats, labels_idx_batch, real_lengths):
+    def get_golden_scores(self, frames, labels_idx_batch, real_lengths):
         '''
         得到正确路径的得分
         '''
-        #feats[batch size, seq len, label_size]
+        #frames[batch size, seq len, label_size]
         #labels_idx_batch:[batch size, seq len]
         #real_lengths：[batch size]
         score = torch.zeros(labels_idx_batch.shape[0]).to(device)#[batch size]
         score_ = torch.zeros(labels_idx_batch.shape[0]).to(device)#[batch size]
         labels = torch.cat([torch.full([labels_idx_batch.shape[0],1],self.label2idx[START_TAG], dtype=torch.long).to(device),labels_idx_batch], dim=1)#[batch size, seq len+1],注意不要+[STOP_TAG]; 结尾有处理
         index = 0
-        for i in range(feats.shape[1]): # 沿途累加每一帧的转移和发射
+        for i in range(frames.shape[1]): # 沿途累加每一帧的转移和发射
             index += 1
-            feat=feats[:,i,:]#[batch size, label_size]
-            score += self.transitions[labels[:,i + 1], labels[:,i]] + feat[range(feat.shape[0]),labels[:,i + 1]]#[batch size]
+            frame=frames[:,i,:]#[batch size, label_size]
+            score += self.transitions[labels[:,i + 1], labels[:,i]] + frame[range(frame.shape[0]),labels[:,i + 1]]#[batch size]
 
             for idx, length in enumerate(real_lengths):
               if length == index:

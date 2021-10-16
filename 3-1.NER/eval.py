@@ -14,7 +14,7 @@ model = BiLSTM_CRF(len(char2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(devic
 model.load_state_dict(torch.load("./saved_model/model.pth", map_location=device))
 model.eval()
 
-def extract(sent, tags):
+def extract(chars, tags):
     result = []
     pre = ''
     w = []
@@ -22,17 +22,17 @@ def extract(sent, tags):
         if not pre:
             if tag.startswith('B'):
                 pre = tag.split('-')[1]
-                w.append(sent[idx])
+                w.append(chars[idx])
         else:
             if tag == f'I-{pre}':
-                w.append(sent[idx])
+                w.append(chars[idx])
             else:
                 result.append([w, pre])
                 w = []
                 pre = ''
                 if tag.startswith('B'):
                     pre = tag.split('-')[1]
-                    w.append(sent[idx])      
+                    w.append(chars[idx])      
     return [[''.join(x[0]), x[1]] for x in result]
 
 gold_num = 0
@@ -43,17 +43,17 @@ for inputs_idx_batch, labels_idx_batch, real_lengths in data_generator(TEST_DATA
     print(inputs_idx_batch)
     print(labels_idx_batch)
     if len(inputs_idx_batch) > 0:
-        sent = [idx2char[ix.item()] for ix in inputs_idx_batch[0]]
-        print(f"Sent: {''.join(sent)}")
+        chars = [idx2char[ix.item()] for ix in inputs_idx_batch[0]]
+        print(f"Sent: {''.join(chars)}")
         labels = [idx2label[ix.item()] for ix in labels_idx_batch[0]]
-        entities = extract(sent, labels)
+        entities = extract(chars, labels)
         gold_num += len(entities)
         print (f'NER: {entities}')
 
         res = model(inputs_idx_batch.to(device))
         pred_labels = [idx2label[ix] for ix in res[1]]
         
-        pred_entities = extract(sent, pred_labels)
+        pred_entities = extract(chars, pred_labels)
         predict_num += len(pred_entities)
         print (f'Predicted NER: {pred_entities}')
         print ('---------------\n')
