@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import torch
 from model import BiLSTM_CRF
-from load_data import vocab2idx, idx2vocab, label2idx, idx2label, data_generator
+from load_data import char2idx, idx2char, label2idx, idx2label, data_generator
 
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 
@@ -10,7 +10,7 @@ HIDDEN_DIM = 64
 BATCH_SIZE = 1
 TEST_DATA_PATH = "./data/test_data" # 测试数据
 
-model = BiLSTM_CRF(len(vocab2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
+model = BiLSTM_CRF(len(char2idx), label2idx, EMBEDDING_DIM, HIDDEN_DIM).to(device)
 model.load_state_dict(torch.load("./saved_model/model.pth", map_location=device))
 model.eval()
 
@@ -39,11 +39,11 @@ gold_num = 0
 predict_num = 0
 correct_num = 0
 
-for inputs_idx_batch, labels_idx_batch, real_lengths in data_generator(TEST_DATA_PATH, vocab2idx, label2idx, BATCH_SIZE):
+for inputs_idx_batch, labels_idx_batch, real_lengths in data_generator(TEST_DATA_PATH, char2idx, label2idx, BATCH_SIZE):
     print(inputs_idx_batch)
     print(labels_idx_batch)
     if len(inputs_idx_batch) > 0:
-        sent = [idx2vocab[ix.item()] for ix in inputs_idx_batch[0]]
+        sent = [idx2char[ix.item()] for ix in inputs_idx_batch[0]]
         print(f"Sent: {''.join(sent)}")
         labels = [idx2label[ix.item()] for ix in labels_idx_batch[0]]
         entities = extract(sent, labels)

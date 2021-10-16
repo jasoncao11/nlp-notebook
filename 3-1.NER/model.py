@@ -113,15 +113,13 @@ class BiLSTM_CRF(nn.Module):
         alpha[0][self.label2idx[START_TAG]] = 0
         for frame in frames:
             # 这里跟get_total_scores稍有不同: 需要求最优路径（而非一个总体分值）, 所以还要对smat求column_max
-            smat = alpha.T + frame.unsqueeze(0) + self.transitions.T
-            
+            smat = alpha.T + frame.unsqueeze(0) + self.transitions.T      
             val, idx = torch.max(smat, 0)
             backtrace.append(idx)
             alpha = val.unsqueeze(0)
 
         # 回溯路径
-        smat = alpha.T + 0 + self.transitions[[self.label2idx[STOP_TAG]], :].T
-        
+        smat = alpha.T + 0 + self.transitions[[self.label2idx[STOP_TAG]], :].T        
         val, idx = torch.max(smat, 0)
         best_tag_id = idx.item()
               
