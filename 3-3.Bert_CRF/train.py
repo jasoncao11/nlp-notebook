@@ -12,7 +12,7 @@ LR = 5e-4
 WARMUP_PROPORTION = 0.1
 MAX_GRAD_NORM = 1.0
 MODEL_PATH = './bert-base-chinese'
-SAVE_PATH = './saved_model/pytorch_model.bin'
+SAVED_DIR = './saved_model'
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 def run():
@@ -58,7 +58,7 @@ def run():
 
         loss_vals.append(np.mean(epoch_loss)) 
 
-    torch.save(model.state_dict(), SAVE_PATH)
+    model.save_pretrained(SAVED_DIR)
     plt.plot(np.linspace(1, N_EPOCHS, N_EPOCHS).astype(int), loss_vals)
     
 if __name__ == '__main__':

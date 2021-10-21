@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-'''
-saved_model文件夹包含两个文件：
-1).在原有bert-base-chinese基础上fine-tune的pytorch_model.bin
-2).配置文件config.json，和原有bert-base-chinese的配置文件一样
-'''
 import torch
 from transformers import BertTokenizer
 from model import BertForNER
@@ -56,7 +51,7 @@ for batch_data in valdataloader:
 
     res = model(input_ids, attention_mask)
     pred_labels = [idx2label[ix] for ix in res[1]]
-    pred_entities = extract(chars[1:], pred_labels)
+    pred_entities = extract(chars, pred_labels)
     
     predict_num += len(pred_entities)
     print (f'Predicted NER: {pred_entities}')
