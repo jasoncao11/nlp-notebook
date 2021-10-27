@@ -33,13 +33,9 @@ class TextRCNN(nn.Module):
             logit = self.fc(out) # [batch_size, class_num]
         return logit
 
-def kd_step(bert_model, saved_model, temperature, epochs, traindata, valdata, class_num=2):
+def kd_step(saved_model, temperature, epochs, traindata, valdata, class_num=2):
     
-    teacher = TextRCNN_Bert(bert_model, class_num)
-    if device == 'cpu':
-        teacher.load_state_dict(torch.load(saved_model, map_location=torch.device('cpu')))
-    else:
-        teacher.load_state_dict(torch.load(saved_model))
+    teacher = TextRCNN_Bert.from_pretrained(saved_model)
     teacher.to(device)
     teacher.eval()
     
@@ -84,9 +80,8 @@ def kd_step(bert_model, saved_model, temperature, epochs, traindata, valdata, cl
     print(acc)
 
 if __name__ == '__main__':
-    kd_step('./bert-base-chinese', 
-            'model.pth', 
+    kd_step('./saved_model',            
             5, 
-            10, 
+            5, 
             traindataloader, 
             valdataloader)

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import time
 import torch
 import torch.nn as nn
 import numpy as np
@@ -11,20 +10,20 @@ from transformers import AdamW
 from transformers import get_linear_schedule_with_warmup
 from tqdm import tqdm
 
+SAVED_DIR = './saved_model'
 EPOCHS = 5
-CLS = 2
 BERT_PATH = './bert-base-chinese'
+WARMUP_PROPORTION = 0.1
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 
-model = TextRCNN_Bert(BERT_PATH, CLS)
+model = TextRCNN_Bert.from_pretrained(BERT_PATH)
 model.to(device)
 
 total_steps = len(traindataloader) * EPOCHS
 optimizer = AdamW(model.parameters(), lr=5e-5)
-scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps = 0, num_training_steps = total_steps)
+scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=int(WARMUP_PROPORTION * total_steps), num_training_steps=total_steps)
 criterion = nn.NLLLoss()
 
-start = time.time()
 loss_vals = []
 for epoch in range(EPOCHS):
     model.train()
@@ -37,16 +36,14 @@ for epoch in range(EPOCHS):
         out = model(tokens_ids, mask)
         loss = criterion(out, label)
         loss.backward()
-        #torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         epoch_loss.append(loss.item())
         optimizer.step()
         scheduler.step()
         pbar.set_postfix(loss=loss.item())
     loss_vals.append(np.mean(epoch_loss))    
-end = time.time()
-print(f'Training costs:{end-start} seconds')
     
-torch.save(model.state_dict(), "model.pth") 
+model.save_pretrained(SAVED_DIR)
 plt.plot(np.linspace(1, EPOCHS, EPOCHS).astype(int), loss_vals)
 
 model.eval()
