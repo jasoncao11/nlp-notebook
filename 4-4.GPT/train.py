@@ -96,7 +96,7 @@ def run():
         if valid_loss < best_valid_loss:
             best_valid_loss = valid_loss
             model_to_save = model.module if hasattr(model, "module") else model
-            model_to_save.save_pretrained('model.pt')
+            model_to_save.save_pretrained('./saved_model')
         torch.cuda.empty_cache()
         
     l1, = plt.plot(np.linspace(1, N_EPOCHS, N_EPOCHS).astype(int), loss_vals)

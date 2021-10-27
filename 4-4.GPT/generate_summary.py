@@ -42,10 +42,9 @@ def top_k_top_p_filtering(logits, top_k=0, top_p=0.0, filter_value=-float('Inf')
         logits[indices_to_remove] = filter_value
     return logits
 
-
 def sumarize(content):
     tokenizer = BertTokenizer.from_pretrained('./vocab')
-    model = GPT2LMHeadModel.from_pretrained('./model.pt')
+    model = GPT2LMHeadModel.from_pretrained('./saved_model')
     model.to(device)
     model.eval()
     
