@@ -36,7 +36,6 @@ def calculate_loss(outputs, labels, token_type_ids, summary_id):
     loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1))
     return loss
 
-
 def run():
     best_valid_loss = float('inf')
     model_config = GPT2Config.from_json_file('./config/config.json')
@@ -105,4 +104,3 @@ def run():
     
 if __name__ == '__main__':
     run()
-
