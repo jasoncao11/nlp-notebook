@@ -58,19 +58,19 @@ transformers 3.0.2
 #### 2). 抽取式
 - 4-6. [Bert-extractive-summarizer](4-6.Bert-extractive-summarizer)
 
-### 5. [PaperwithCode](5.Sentence-Similarity)
+### 5. [Sentence-Similarity](5.Sentence-Similarity)
 
 ### 6. [PaperwithCode](PaperwithCode)
 
 该文件夹记录一些paper及其所对应的模型代码:
-- 6.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/5.PaperwithCode/1.Co-Interactive-Transformer)
-- 6.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/5.PaperwithCode/2.DSSM)
-- 6.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/5.PaperwithCode/3.P-tuning)
+- 6.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/1.Co-Interactive-Transformer)
+- 6.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/2.DSSM)
+- 6.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/3.P-tuning)
 
-### 6. [QA](QA)
+### 7. [QA](QA)
 
 该文件夹内记录机器学习/深度学习一些知识点的简单总结。
 
-### 7. [algo](algo)
+### 8. [algo](algo)
 
 该文件夹内记录leetcode最热门的100道算法题，部分解题思路搬运自leetcode题解。
