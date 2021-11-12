@@ -58,7 +58,9 @@ transformers 3.0.2
 #### 2). 抽取式
 - 4-6. [Bert-extractive-summarizer](4-6.Bert-extractive-summarizer)
 
-### 5. [Sentence-Similarity](5.Sentence-Similarity)
+### 5. 句子相似度判别
+
+- 5-1. [Sentence-Similarity](5.Sentence-Similarity)
 
 ### 6. [PaperwithCode](PaperwithCode)
 
