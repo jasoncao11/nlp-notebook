@@ -48,7 +48,7 @@ class EmbeddingModel(nn.Module):
         f1 = open(os.path.join(outdir, 'vec.tsv'), 'w')
         f2 = open(os.path.join(outdir, 'word.tsv'), 'w')        
         for idx in range(len(embeds)):
-          word = idx2word[idx]
-          embed = '\t'.join([str(x) for x in embeds[idx]])
-          f1.write(embed+'\n')
-          f2.write(word+'\n')
+            word = idx2word[idx]
+            embed = '\t'.join([str(x) for x in embeds[idx]])
+            f1.write(embed+'\n')
+            f2.write(word+'\n')
