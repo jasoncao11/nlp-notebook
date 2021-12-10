@@ -62,17 +62,21 @@ transformers 3.0.2
 
 - 5-1. [Sentence-Similarity](5.Sentence-Similarity)
 
-### 6. [PaperwithCode](PaperwithCode)
+### 6. 多标签分类
+
+- 6-1. [MultiLabel-Classification](6.MultiLabel-Classification)
+
+### 7. [PaperwithCode](PaperwithCode)
 
 该文件夹记录一些paper及其所对应的模型代码:
 - 6.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/1.Co-Interactive-Transformer)
 - 6.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/2.DSSM)
 - 6.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/3.P-tuning)
 
-### 7. [QA](QA)
+### 8. [QA](QA)
 
 该文件夹内记录机器学习/深度学习一些知识点的简单总结。
 
-### 8. [algo](algo)
+### 9. [algo](algo)
 
 该文件夹内记录leetcode最热门的100道算法题，部分解题思路搬运自leetcode题解。
