@@ -41,9 +41,6 @@ Bert-whitening是直接对Bert生成的句向量做转换，将当前坐标系�
 ![simi3](../images/simi3.png)
 ![simi4](../images/simi4.png)
 
-#### Bert whitening:
-![simi5](../images/simi5.png)
-
 #### 参考：
 
 - https://kexue.fm/archives/8069
