@@ -20,7 +20,7 @@ SBERT在BERT/RoBERTa的输出结果上增加了一个Pooling操作，从而生�
 
 - MAX：取出所有Token输出向量各个维度的最大值作为整个句子向量
 
-![simi](../images/simi2.png)
+![simi](../images/simi6.png)
 
 ### 2. Siamese Network
 
@@ -35,11 +35,11 @@ SBERT在BERT/RoBERTa的输出结果上增加了一个Pooling操作，从而生�
 
 Bert-whitening是直接对Bert生成的句向量做转换，将当前坐标系变换到标准正交基下，进而实现句向量空间的各向同性。
 
-背景：
-
+PCA：
 降维问题的优化目标：将一组N维向量降为K维（K大于0，小于N），其目标是选择K个单位（模为1）正交基，使得原始数据变换到这组基上后，各字段两两间协方差为0，而字段的方差则尽可能大（在正交的约束下，取最大的K个方差）。
 ![simi3](../images/simi3.png)
 ![simi4](../images/simi4.png)
+Bert whitening:
 ![simi5](../images/simi5.png)
 
 参考：
