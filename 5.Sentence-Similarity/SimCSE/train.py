@@ -11,7 +11,7 @@ from model import Bert_Simcse
 
 SAVED_DIR = '../saved_model'
 EPOCHS = 10
-BERT_PATH = '../bert-base-chinese'
+BERT_PATH = '../bert-base-chinese' #Dropout设置为0.5
 WARMUP_PROPORTION = 0.1
 METHOD = 'mean_pooling'
 device = "cuda" if torch.cuda.is_available() else 'cpu'
@@ -60,7 +60,7 @@ for epoch in range(EPOCHS):
     loss_vals.append(np.mean(epoch_loss)) 
 
     model.eval()
-    for t in [0.51, 0.55, 0.6, 0.65]:
+    for t in [0.5, 0.6, 0.7, 0.8, 0.9, 0.95]:
         predict_all = np.array([], dtype=int)
         labels_all = np.array([], dtype=int)
         with torch.no_grad():        
