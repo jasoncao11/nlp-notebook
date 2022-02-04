@@ -44,18 +44,19 @@ for epoch in range(EPOCHS):
     loss_vals.append(np.mean(epoch_loss))
 
     model.eval()
-    predict_all = np.array([], dtype=int)
-    labels_all = np.array([], dtype=int)
-    with torch.no_grad():        
-        for batch in valdataloader:
-            input_ids_1, attention_mask_1, input_ids_2, attention_mask_2, labels = batch['input_ids_1'].to(device), batch['attention_mask_1'].to(device), batch['input_ids_2'].to(device), batch['attention_mask_2'].to(device), batch['labels'].to(device)
-            pred = model(input_ids_1, attention_mask_1, input_ids_2, attention_mask_2, METHOD)
-            pred = torch.max(pred.data, 1)[1].cpu().numpy()
-            predict_all = np.append(predict_all, pred)   
-            truth = labels.cpu().numpy()
-            labels_all = np.append(labels_all, truth)    
-    acc = metrics.accuracy_score(labels_all, predict_all)
-    print(f'accuracy on dev is {acc}')
+    for t in [0.5, 0.6, 0.7, 0.8, 0.9, 0.95]:
+        predict_all = np.array([], dtype=int)
+        labels_all = np.array([], dtype=int)
+        with torch.no_grad():        
+            for batch in valdataloader:
+                input_ids_1, attention_mask_1, input_ids_2, attention_mask_2, labels = batch['input_ids_1'].to(device), batch['attention_mask_1'].to(device), batch['input_ids_2'].to(device), batch['attention_mask_2'].to(device), batch['labels'].to(device)
+                pred = model.predict(input_ids_1, attention_mask_1, input_ids_2, attention_mask_2, t, METHOD)
+                predict_all = np.append(predict_all, pred)   
+                truth = labels.cpu().numpy()
+                labels_all = np.append(labels_all, truth)    
+        acc = metrics.accuracy_score(labels_all, predict_all)
+        print(predict_all[:10])
+        print(f'Epoch-{epoch} Threshold-{t}: Accuracy on dev is {acc}')       
     
 model.save_pretrained(f'{SAVED_DIR}_{METHOD}')
 plt.plot(np.linspace(1, EPOCHS, EPOCHS).astype(int), loss_vals)

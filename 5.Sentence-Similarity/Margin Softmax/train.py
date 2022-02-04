@@ -44,7 +44,7 @@ for epoch in range(EPOCHS):
     loss_vals.append(np.mean(epoch_loss)) 
     
     model.eval()
-    for t in [0.85, 0.9, 0.92, 0.95, 0.97, 0.99]:
+    for t in [0.5, 0.6, 0.7, 0.8, 0.9, 0.95]:
         predict_all = np.array([], dtype=int)
         labels_all = np.array([], dtype=int)
         with torch.no_grad():        

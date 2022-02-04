@@ -4,7 +4,7 @@ import torch.utils.data as tud
 from transformers import BertTokenizer
 from torch.nn.utils.rnn import pad_sequence
 
-TRAIN_DATA_PATH = '../data/train_update.csv'
+TRAIN_DATA_PATH = '../data/train_update_1.csv'
 TOKENIZER_PATH = '../bert-base-chinese'
 BATCH_SIZE = 128
 MAX_LEN = 512
