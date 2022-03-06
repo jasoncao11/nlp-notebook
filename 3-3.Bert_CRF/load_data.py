@@ -63,7 +63,7 @@ class NERDataset(tud.Dataset):
                         labels_idx = labels_idx[0] + labels_idx[:max_len-2] + labels_idx[-1]
                     assert len(input_ids) == len(labels_idx)
                     real_len = len(chars)
-                    self.data_set.append({"input_ids": input_ids, "labels_idx": labels_idx, "attention_mask":[1]*len(input_ids), "real_len": real_len})
+                    self.data_set.append({"input_ids": input_ids, "labels_idx": labels_idx, "attention_mask":[1]*len(input_ids), "real_len": real_len+2})
                     chars = []
                     labels_idx = []                  
                

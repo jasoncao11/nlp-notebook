@@ -63,8 +63,8 @@ class BertForNER(BertPreTrainedModel):
             alpha = log_sum_exp(alpha.unsqueeze(-1) + frame.unsqueeze(1) + self.transitions.T).squeeze(1)#[batch size, label_size]
 
             for idx, length in enumerate(real_lengths):
-              if length == index:
-                alpha_[idx] = alpha[idx]
+                if length == index:
+                    alpha_[idx] = alpha[idx]
         #最后转到EOS，发射分值为0，转移分值为 self.transitions[[self.label2idx[STOP_TAG]], :].T
         #alpha.unsqueeze(-1): [batch size, label_size, 1]
         #self.transitions[[self.label2idx[STOP_TAG]], :].T: [label_size, 1]
@@ -90,8 +90,8 @@ class BertForNER(BertPreTrainedModel):
             score += self.transitions[labels[:,i + 1], labels[:,i]] + frame[range(frame.shape[0]),labels[:,i + 1]]#[batch size]
 
             for idx, length in enumerate(real_lengths):
-              if length == index:
-                score_[idx] = score[idx]
+                if length == index:
+                    score_[idx] = score[idx]
 
         score_ = score_ + self.transitions[self.label2idx[STOP_TAG], labels[:,-1]] #[batch size],加上到STOP_TAG的转移
         return score_
@@ -125,7 +125,7 @@ class BertForNER(BertPreTrainedModel):
         return torch.mean(total_scores - gold_score)
 
     def forward(self, input_ids, attention_mask):    
-        lstm_feats = self.get_features(input_ids, attention_mask)
-        lstm_feats = lstm_feats.squeeze(0) #[seq len, label_size]
-        result = self.viterbi_decode(lstm_feats)
+        feats = self.get_features(input_ids, attention_mask)
+        feats = feats.squeeze(0) #[seq len, label_size]
+        result = self.viterbi_decode(feats)
         return result
