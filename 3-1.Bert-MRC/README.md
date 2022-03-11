@@ -62,5 +62,4 @@ correct_num = 4725
 precision = 0.8501259445843828
 recall = 0.78125
 f1-score = 0.8142340168878166
-add Codeadd Markdown
 ```
