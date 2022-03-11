@@ -43,9 +43,9 @@ transformers 3.0.2
 
 ### 3. 实体识别NER 
 
-- 3-1. [BILSTM_CRF_NER](3-1.BiLSTM_CRF)
-- 3-2. [Lattice_LSTM](3-2.Lattice_LSTM)
-- 3-3. [Bert_CRF](3-3.Bert_CRF)
+- 3-1. [Bert-MRC](3-1.Bert-MRC)
+- 3-2. [Bert-CRF](3-2.Bert-CRF)
+- 3-3. [Lattice_LSTM](3-3.Lattice_LSTM)
 
 ### 4. 文本摘要生成
 
