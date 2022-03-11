@@ -37,27 +37,22 @@ def run():
         #num = 0
         pbar = tqdm(traindataloader)
         pbar.set_description("[Train Epoch {}]".format(epoch)) 
-    
-        for batch_idx, batch_data in enumerate(pbar):
-            
+        for batch_idx, batch_data in enumerate(pbar):           
             input_ids = batch_data["input_ids"].to(device)
             attention_mask = batch_data["attention_mask"].to(device)
-            labels_idx = batch_data["labels_idx"].to(device)
+            label_ids = batch_data["label_ids"].to(device)
             real_lens = batch_data["real_lens"]
             #num += len(real_lens)
             model.zero_grad()
-            loss = model.neg_log_likelihood(input_ids, attention_mask, labels_idx, real_lens)           
+            loss = model.neg_log_likelihood(input_ids, attention_mask, label_ids, real_lens)           
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), MAX_GRAD_NORM)
             epoch_loss.append(loss.item())
             optimizer.step()
             scheduler.step()
-
             #if num >= 3000:
             #    break
-
-        loss_vals.append(np.mean(epoch_loss)) 
-
+        loss_vals.append(np.mean(epoch_loss))
     model.save_pretrained(SAVED_DIR)
     plt.plot(np.linspace(1, N_EPOCHS, N_EPOCHS).astype(int), loss_vals)
     

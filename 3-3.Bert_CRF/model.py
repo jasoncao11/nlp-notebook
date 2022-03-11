@@ -79,7 +79,6 @@ class BertForNER(BertPreTrainedModel):
         #frames[batch size, seq len, label_size]
         #labels_idx_batch:[batch size, seq len]
         #real_lengths：[batch size]
-
         score = torch.zeros(labels_idx_batch.shape[0]).to(device)#[batch size]
         score_ = torch.zeros(labels_idx_batch.shape[0]).to(device)#[batch size]
         labels = torch.cat([torch.full([labels_idx_batch.shape[0],1],self.label2idx[START_TAG], dtype=torch.long).to(device),labels_idx_batch], dim=1)#[batch size, seq len+1],注意不要+[STOP_TAG]; 结尾有处理
@@ -106,7 +105,6 @@ class BertForNER(BertPreTrainedModel):
             val, idx = torch.max(smat, 0)
             backtrace.append(idx)
             alpha = val.unsqueeze(0)
-
         # 回溯路径
         smat = alpha.T + 0 + self.transitions[[self.label2idx[STOP_TAG]], :].T        
         val, idx = torch.max(smat, 0)

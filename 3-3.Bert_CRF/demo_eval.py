@@ -39,12 +39,12 @@ for batch_data in valdataloader:
 
     input_ids = batch_data["input_ids"].to(device)
     attention_mask = batch_data["attention_mask"].to(device)
-    labels_idx = batch_data["labels_idx"].to(device)
+    label_ids = batch_data["label_ids"].to(device)
 
     chars = tokenizer.convert_ids_to_tokens(input_ids[0])
     sent = ''.join(chars)
     print(f"Sent: {sent}")
-    labels = [idx2label[ix.item()] for ix in labels_idx[0]]
+    labels = [idx2label[ix.item()] for ix in label_ids[0]]
     entities = extract(chars, labels)
     gold_num += len(entities)
     print (f'NER: {entities}')
