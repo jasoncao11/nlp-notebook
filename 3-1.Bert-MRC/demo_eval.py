@@ -46,7 +46,6 @@ def mrc_decode(start_pred, end_pred, raw_text):
 gold_num = 0
 predict_num = 0
 correct_num = 0
-#num =0
 with open (TEST_DATA_PATH, encoding='utf8') as rf:
     chars = []
     labels = []
@@ -101,9 +100,7 @@ with open (TEST_DATA_PATH, encoding='utf8') as rf:
             for pred in pred_entities:
                 if pred in entities:
                     correct_num += 1          
-            #num += 1
-            #if num == 20:
-            #    break
+
 print(f'gold_num = {gold_num}')
 print(f'predict_num = {predict_num}')
 print(f'correct_num = {correct_num}')
