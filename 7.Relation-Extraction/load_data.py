@@ -38,7 +38,7 @@ def collate_fn(batch_data):
         obj_mask_temp = instance["obj_mask"]
         label_temp = instance["label"]
         real_len = instance["real_len"]
-        # 将input_ids_temp和tag_idsx_temp,attention_mask_temp添加到对应的list中
+        # 添加到对应的list中
         input_ids_list.append(torch.tensor(input_ids_temp, dtype=torch.long))
         tag_ids_list.append(torch.tensor(tag_ids_temp, dtype=torch.long))
         attention_mask_list.append(torch.tensor(attention_mask_temp, dtype=torch.long))

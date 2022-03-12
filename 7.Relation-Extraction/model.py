@@ -69,7 +69,6 @@ class BertForRE(BertPreTrainedModel):
             #self.transitions.T:转移矩阵,[tag_size, tag_size]
             #三者相加会广播,维度为[batch size, tag_size, tag_size], log_sum_exp后的维度为[batch size, 1, tag_size]
             alpha = log_sum_exp(alpha.unsqueeze(-1) + frame.unsqueeze(1) + self.transitions.T).squeeze(1)#[batch size, tag_size]
-
             for idx, length in enumerate(real_lengths):
                 if length == index:
                     alpha_[idx] = alpha[idx]
@@ -87,7 +86,6 @@ class BertForRE(BertPreTrainedModel):
         #frames[batch size, seq len, tag_size]
         #tag_ids_batch:[batch size, seq len]
         #real_lengths：[batch size]
-
         score = torch.zeros(tag_ids_batch.shape[0]).to(device)#[batch size]
         score_ = torch.zeros(tag_ids_batch.shape[0]).to(device)#[batch size]
         tags = torch.cat([torch.full([tag_ids_batch.shape[0],1],self.tag2idx[START_TAG], dtype=torch.long).to(device),tag_ids_batch], dim=1)#[batch size, seq len+1],注意不要+[STOP_TAG]; 结尾有处理
@@ -100,7 +98,6 @@ class BertForRE(BertPreTrainedModel):
             for idx, length in enumerate(real_lengths):
                 if length == index:
                     score_[idx] = score[idx]
-
         score_ = score_ + self.transitions[self.tag2idx[STOP_TAG], tags[:,-1]] #[batch size],加上到STOP_TAG的转移
         return score_
 

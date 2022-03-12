@@ -13,21 +13,21 @@ model.eval()
 tokenizer = BertTokenizer.from_pretrained(TOKENIZER_PATH)
 with open (DEV_DATA_PATH, encoding='utf8') as rf:
     for line in rf:
-      data = json.loads(line)
-      text = data["text"].lower()
-      if len(text) <= MAX_LEN-2:
-          print(text)
-          spo_list = data["spo_list"]
-          for spo in spo_list:
-              print(f'{spo["subject"]} - {spo["predicate"]} - {spo["object"]}')
-          chars = []
-          for char in text:
-              chars.append(char)
-          chars = ['[CLS]'] + chars + ['[SEP]']                
-          input_ids = [tokenizer.convert_tokens_to_ids(c) for c in chars]
-          attention_mask = [1]*len(input_ids)
-          input_ids = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0).to(device)
-          attention_mask = torch.tensor(attention_mask, dtype=torch.long).unsqueeze(0).to(device)
-          print(f'-----------------预测结果----------------')                                            
-          model.predict(text, chars, input_ids, attention_mask)
-          print(f'=========================================')
+        data = json.loads(line)
+        text = data["text"].lower()
+        if len(text) <= MAX_LEN-2:
+            print(text)
+            spo_list = data["spo_list"]
+            for spo in spo_list:
+                print(f'{spo["subject"]} - {spo["predicate"]} - {spo["object"]}')
+            chars = []
+            for char in text:
+                chars.append(char)
+            chars = ['[CLS]'] + chars + ['[SEP]']                
+            input_ids = [tokenizer.convert_tokens_to_ids(c) for c in chars]
+            attention_mask = [1]*len(input_ids)
+            input_ids = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0).to(device)
+            attention_mask = torch.tensor(attention_mask, dtype=torch.long).unsqueeze(0).to(device)
+            print(f'-----------------预测结果----------------')                                            
+            model.predict(text, chars, input_ids, attention_mask)
+            print(f'=========================================')
