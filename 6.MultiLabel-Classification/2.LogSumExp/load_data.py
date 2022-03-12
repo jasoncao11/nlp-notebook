@@ -32,7 +32,7 @@ def collate_fn(batch_data):
         input_ids_temp = instance["input_ids"]
         attention_mask_temp = instance["mask"]
         label_temp = instance["label"]
-        # 将input_ids_temp和token_type_ids_temp添加到对应的list中
+        # 添加到对应的list中
         input_ids_list.append(torch.tensor(input_ids_temp, dtype=torch.long))
         attention_mask_list.append(torch.tensor(attention_mask_temp, dtype=torch.long))
         labels_list.append(label_temp)
@@ -51,9 +51,7 @@ class MultilabelDataset(tud.Dataset):
             for line in rf:
                 cate, sent = line.strip().split(" ", maxsplit=1)
                 cate = cate.split("|")
-
                 label = mlb.transform([cate])[0].tolist()
-
                 tokens = self.tokenizer.tokenize(sent)
                 if len(tokens) > self.max_len - 2:
                     tokens = tokens[:self.max_len]
