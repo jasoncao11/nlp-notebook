@@ -37,8 +37,7 @@ class BinarySentiDataset(tud.Dataset):
             mask = [1] * (seq_len + 2) + [0] * (self.pad_size - seq_len - 2)     
         else:
             tokens = ['[CLS]']+tokens[:self.pad_size - 2]+['[SEP]']
-            mask = [1] * self.pad_size
-            
+            mask = [1] * self.pad_size            
         tokens_ids = torch.tensor(self.tokenizer.convert_tokens_to_ids(tokens))
         mask = torch.tensor(mask)
         label = torch.tensor(label)       
