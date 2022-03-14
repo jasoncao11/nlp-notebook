@@ -3,8 +3,10 @@
 ### 原理
 在输入文本前加上了实体类型的描述信息，这些实体类型的描述作为先验知识提高了模型抽取的效果，所以BERT-MRC模型在数据量匮乏的场景下，通过在输入文本前面拼接的query获得了一定的先验信息，提升了性能。
 
-model_1.py:
+1). model.py:
+采用CrossEntropyLoss
 
+2). model_1.py:
 采用BCELoss, 将概率值做n次方缓解类别失衡问题，[参考](https://kexue.fm/archives/7161) 
 
 ### 模型预测效果
