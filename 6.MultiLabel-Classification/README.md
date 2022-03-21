@@ -14,5 +14,5 @@ TextRCNN
 - 借助于logsumexp的性质，将“softmax + 交叉熵”推广到多标签分类任务中
 
 #### 4. 参考
-- https://kexue.fm/archives/7359/comment-page-2#comments
+- https://kexue.fm/archives/7359
 - https://kexue.fm/archives/3290
