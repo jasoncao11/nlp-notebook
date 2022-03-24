@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
 from transformers import AdamW, get_linear_schedule_with_warmup
-from model import MRCModel
+from model import MRCModel_CE
 from load_data import traindataloader
 
 N_EPOCHS = 20
@@ -15,7 +15,7 @@ SAVED_DIR = './saved_model'
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 
 def run():
-    model = MRCModel.from_pretrained(MODEL_PATH)
+    model = MRCModel_CE.from_pretrained(MODEL_PATH)
     model.to(device)
 
     no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']

@@ -9,6 +9,9 @@
 2). model_1.py:
 采用BCELoss, 将概率值做n次方缓解类别失衡问题，[参考](https://kexue.fm/archives/7161) 
 
+3). model_2.py:
+Focal loss for multiple class，[参考](https://zhuanlan.zhihu.com/p/49981234) 
+
 ### 模型预测效果
 
 run demo_eval.py

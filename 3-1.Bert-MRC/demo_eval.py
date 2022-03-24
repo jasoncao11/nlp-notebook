@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import torch
 from transformers import BertTokenizer
-from model import MRCModel
+from model import MRCModel_CE
 from load_data import TEST_DATA_PATH, template, MAX_LEN
 
 tokenizer = BertTokenizer.from_pretrained('./bert-base-chinese')
 device = "cuda" if torch.cuda.is_available() else 'cpu'
-model = MRCModel.from_pretrained('./saved_model')
+model = MRCModel_CE.from_pretrained('./saved_model')
 model.to(device)
 model.eval()
 
