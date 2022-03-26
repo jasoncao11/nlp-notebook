@@ -65,7 +65,7 @@ class SentiDataset(tud.Dataset):
         return self.data_set[idx]
     
 traindataset = SentiDataset(TRAIN_DATA_PATH)
-traindataloader = tud.DataLoader(traindataset, BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
+traindataloader = tud.DataLoader(traindataset, BATCH_SIZE, shuffle=True, collate_fn=collate_fn)
 
 valdataset = SentiDataset(DEV_DATA_PATH, mode='dev')
 valdataloader = tud.DataLoader(valdataset, BATCH_SIZE, shuffle=False, collate_fn=collate_fn)

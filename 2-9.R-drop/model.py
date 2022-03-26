@@ -12,7 +12,7 @@ class TextCNN(nn.Module):
         embed_dim = 300
         dropout = 0.5
 
-        self.embed = nn.Embedding(vocab_size, embed_dim, padding_idx=1)        
+        self.embed = nn.Embedding(vocab_size, embed_dim)        
         self.convs = nn.ModuleList([nn.Conv2d(ci, kernel_num, (k, embed_dim)) for k in kernel_size])
         self.dropout = nn.Dropout(dropout)
         self.fc1 = nn.Linear(len(kernel_size) * kernel_num, class_num)
