@@ -10,9 +10,9 @@ DEV_DATA_PATH = '../data/dev.tsv'
 BATCH_SIZE = 128
 MIN_FREQ = 5
 
-#Make char dict
-char2id = {'<pad>':0, '<unk>':1}
-char2freq = {}
+#Make word dict
+word2id = {'<pad>':0, '<unk>':1}
+word2freq = {}
 with open(TRAIN_DATA_PATH, 'r', encoding='utf8') as rf:
     r = csv.reader(rf, delimiter='\t')
     next(r)
@@ -20,12 +20,10 @@ with open(TRAIN_DATA_PATH, 'r', encoding='utf8') as rf:
         text = row[2]
         tokens = [tok for tok in jieba.cut(text)]
         for token in tokens:
-            char2freq[token] = char2freq.get(token, 0) + 1
-filtered_chars = [char for char, freq in char2freq.items() if freq >= MIN_FREQ]
-for ind, char in enumerate(filtered_chars, 2):
-    char2id[char] = ind
-
-print(char2id)
+            word2freq[token] = word2freq.get(token, 0) + 1
+filtered_words = [word for word, freq in word2freq.items() if freq >= MIN_FREQ]
+for ind, word in enumerate(filtered_words, 2):
+    word2id[word] = ind
 
 def collate_fn(batch_data):
     """
@@ -42,7 +40,7 @@ def collate_fn(batch_data):
         labels_list.append(instance["label"])
     # 使用pad_sequence函数，会将list中所有的tensor进行长度补全，补全到一个batch数据中的最大长度，补全元素为padding_value
     return {"input_ids": pad_sequence(input_ids_list, batch_first=True, padding_value=0),
-         "labels": torch.tensor(labels_list, dtype=torch.long)}
+            "labels": torch.tensor(labels_list, dtype=torch.long)}
     
 class SentiDataset(tud.Dataset):
     def __init__(self, data_path, mode='train'):
@@ -54,7 +52,7 @@ class SentiDataset(tud.Dataset):
             for row in r:
                 text = row[2]
                 tokens = [tok for tok in jieba.cut(text)]
-                input_ids = [char2id.get(tok, 1) for tok in tokens]
+                input_ids = [word2id.get(tok, 1) for tok in tokens]
                 label = int(row[1])           
                 self.data_set.append({"input_ids": input_ids, "label": label})
                 if mode == 'train':
