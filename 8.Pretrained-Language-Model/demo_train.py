@@ -4,9 +4,9 @@ import numpy as np
 from transformers import AdamW
 from transformers import BertConfig, get_linear_schedule_with_warmup
 from tqdm import tqdm
-from generator import Generator
-from discriminator import Discriminator
-from electra import Electra
+from model_generator import Generator
+from model_discriminator import Discriminator
+from model_electra import Electra
 from load_data import data_generator
 
 SAVED_DIR = './PLM_checkpoint'
