@@ -5,7 +5,7 @@
 http://ai.baidu.com/broad/download?dataset=sked
 
 ### bert_model
-从 https://huggingface.co/models 下载bert-base-chinese模型，解压在pretrained_models下
+从 https://huggingface.co/models 下载bert-base-chinese模型
 
 bert-base-chinese目录结构如下：
 ```
