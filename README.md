@@ -1,5 +1,5 @@
 ## 项目描述
-NLP 领域常见任务的实现，包括新词发现、以及基于pytorch的词向量、中文文本分类、实体识别、文本生成、句子相似度判断、三元组抽取等。 
+NLP 领域常见任务的实现，包括新词发现、以及基于pytorch的词向量、中文文本分类、实体识别、文本生成、句子相似度判断、三元组抽取、预训练模型等。 
 
 ## 依赖
 ```
@@ -69,17 +69,21 @@ transformers 3.0.2
 
 - 7-1. [Relation-Extraction](7.Relation-Extraction)
 
-### 8. [PaperwithCode](PaperwithCode)
+### 8. 预训练模型(ELECTRA + SimCSE)
+
+- 8-1. [Pretrained-Language-Model](8.Pretrained-Language-Model)
+
+### 9. [PaperwithCode](PaperwithCode)
 
 该文件夹记录一些paper及其所对应的模型代码:
-- 8.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/1.Co-Interactive-Transformer)
-- 8.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/2.DSSM)
-- 8.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/3.P-tuning)
+- 9.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/1.Co-Interactive-Transformer)
+- 9.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/2.DSSM)
+- 9.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/3.P-tuning)
 
-### 9. [QA](QA)
+### 10. [QA](QA)
 
 该文件夹内记录机器学习/深度学习一些知识点的简单总结。
 
-### 10. [algo](algo)
+### 11. [algo](algo)
 
 该文件夹内记录leetcode最热门的100道算法题，部分解题思路搬运自leetcode题解。
