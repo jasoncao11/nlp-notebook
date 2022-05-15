@@ -2,7 +2,7 @@
 
 ### 原理
 ```
-借鉴双塔模型来解决Few shot NER的问题，用两个BERT Encoder，一个Encoder编码每个token的表征，另一个Encoder对_label的BIO tag的自然语言形式(或者用其他文本对Label进行描述)进行编码，获取Label 表征，
+借鉴双塔模型来解决Few shot NER的问题，用两个BERT Encoder，一个Encoder编码每个token的表征，另一个Encoder对label的BIO tag的自然语言形式(或者用其他文本对Label进行描述)进行编码，获取Label 表征，
 然后求待预测文本中每个token与所有label表征的相似度，求相似度最大的label。
 ```
 ![ner1](../images/ner1.png)
