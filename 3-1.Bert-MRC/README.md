@@ -12,6 +12,11 @@
 3). model_2.py:
 Focal loss for multiple class，[参考](https://zhuanlan.zhihu.com/p/49981234) 
 
+4). model_3.py:
+![ner2](../images/ner2.png)
+进一步简化了Poly-N公式，并重点计算了Poly-1，其中只修改了Cross-entropy loss中的第1个多项式系数。
+![ner3](../images/ner3.png)
+
 ### 模型预测效果
 
 run demo_eval.py
