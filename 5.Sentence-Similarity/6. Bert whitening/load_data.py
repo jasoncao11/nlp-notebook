@@ -55,7 +55,7 @@ class SimiDataset_Train(tud.Dataset):
 traindataset = SimiDataset_Train(TRAIN_DATA_PATH, TOKENIZER_PATH, MAX_LEN)
 traindataloader = tud.DataLoader(traindataset, BATCH_SIZE, shuffle=True, collate_fn=collate_fn_train)
 
-DEV_DATA_PATH = '../data/dev.csv'
+VAL_DATA_PATH = '../data/dev.csv'
 
 def collate_fn(batch_data):
     """
@@ -120,5 +120,5 @@ class SimiDataset(tud.Dataset):
     def __getitem__(self, idx):
         return self.data_set[idx]
 
-valdataset = SimiDataset(DEV_DATA_PATH, TOKENIZER_PATH, MAX_LEN)
+valdataset = SimiDataset(VAL_DATA_PATH, TOKENIZER_PATH, MAX_LEN)
 valdataloader = tud.DataLoader(valdataset, BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
