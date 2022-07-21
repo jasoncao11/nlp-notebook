@@ -55,7 +55,6 @@ for epoch in range(EPOCHS):
                 truth = labels.cpu().numpy()
                 labels_all = np.append(labels_all, truth)    
         acc = metrics.accuracy_score(labels_all, predict_all)
-        print(predict_all[:10])
         print(f'Epoch-{epoch} Threshold-{t}: Accuracy on dev is {acc}')       
     
 model.save_pretrained(f'{SAVED_DIR}_{METHOD}')

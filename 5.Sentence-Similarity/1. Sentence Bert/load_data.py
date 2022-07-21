@@ -5,7 +5,7 @@ from transformers import BertTokenizer
 from torch.nn.utils.rnn import pad_sequence
 
 TRAIN_DATA_PATH = '../data/train.csv'
-DEV_DATA_PATH = '../data/dev.csv'
+VAL_DATA_PATH = '../data/dev.csv'
 TOKENIZER_PATH = '../bert-base-chinese'
 BATCH_SIZE = 128
 MAX_LEN = 512
@@ -77,5 +77,5 @@ class SimiDataset(tud.Dataset):
 traindataset = SimiDataset(TRAIN_DATA_PATH, TOKENIZER_PATH, MAX_LEN)
 traindataloader = tud.DataLoader(traindataset, BATCH_SIZE, shuffle=True, collate_fn=collate_fn)
 
-valdataset = SimiDataset(DEV_DATA_PATH, TOKENIZER_PATH, MAX_LEN)
+valdataset = SimiDataset(VAL_DATA_PATH, TOKENIZER_PATH, MAX_LEN)
 valdataloader = tud.DataLoader(valdataset, BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
