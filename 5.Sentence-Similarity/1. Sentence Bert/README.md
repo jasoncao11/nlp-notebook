@@ -8,4 +8,4 @@ SBERT在BERT/RoBERTa的输出结果上增加了一个Pooling操作，从而生�
 
 - MAX：取出所有Token输出向量各个维度的最大值作为整个句子向量
 
-![simi](../images/simi8.png)
+![simi](../../images/simi8.png)
