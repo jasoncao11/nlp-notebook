@@ -16,6 +16,7 @@
  将当前 weighted 和 embedded 拼接起来与 Decoder 上一个时刻的最后隐状态 hidden 一起传入 Decoder RNN，得到 outputs=[batch size, 1, dec hid dim] 和 hidden=[1, batch size, dec hid dim]，outputs 和 weighted 以及 embedded 三者拼接起来经过线性变换后得到该时刻的预测 [batch size, vocab_size]，新的 hidden 则继续作为 Decoder 下一个时刻的输入。
 ```
 
+```
 - 真实序列与预测序列之间的关系:
 1. 传入 Decoder 的第一个输入为起始符<sos>，预测值填充到输出序列的第二个位置(index=1)，以此类推，输出序列的第一个位置(index=0)恒为0。真实序列与输出序列如下所示：
 - trg = [<sos>, y1, y2, y3, <eos>]
@@ -23,6 +24,7 @@
 2. 计算损失的时候，将 trg 与 outputs 的第一个元素剔除，得到如下所示：
 - trg = [ y1, y2, y3, <eos>]
 - outputs = [y1', y2', y3', <eos>]
+```
 
 ## Reference
 - https://github.com/bentrevett/pytorch-seq2seq/blob/master/3%20-%20Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.ipynb
