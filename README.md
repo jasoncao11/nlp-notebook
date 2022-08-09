@@ -82,7 +82,7 @@ transformers 3.0.2
 
 该文件夹记录一些paper及其所对应的模型代码:
 - 10.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/1.Co-Interactive-Transformer)
-- 10.2. [Lattice_LSTM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/4.Lattice_LSTM)
+- 10.2. [Lattice_LSTM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/2.Lattice_LSTM)
 
 ### 11. [QA](QA)
 
