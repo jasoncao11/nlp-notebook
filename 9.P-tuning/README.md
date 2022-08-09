@@ -1,7 +1,7 @@
 # GPT Understands, Too
 
 ## Structure
-![GPT Understands, Too](../../images/pt.png)
+![GPT Understands, Too](../images/pt.png)
 
 ## Reference
 - https://github.com/THUDM/P-tuning/tree/main/LAMA
