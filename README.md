@@ -74,17 +74,17 @@ transformers 3.0.2
 
 - 8-1. [Pretrained-Language-Model](8.Pretrained-Language-Model)
 
-### 9. [PaperwithCode](PaperwithCode)
+### 9. 提示学习
+
+- 9-1. [P-tuning V1](9.P-tuning)
+
+### 10. [PaperwithCode](PaperwithCode)
 
 该文件夹记录一些paper及其所对应的模型代码:
-- 9.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/1.Co-Interactive-Transformer)
-- 9.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/2.DSSM)
-- 9.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/3.P-tuning)
+- 10.1. [Co-Interactive-Transformer](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/1.Co-Interactive-Transformer)
+- 10.2. [DSSM](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/2.DSSM)
+- 10.3. [P-tuning](https://github.com/jasoncao11/nlp-notebook/tree/master/PaperwithCode/3.P-tuning)
 
-### 10. [QA](QA)
+### 11. [QA](QA)
 
 该文件夹内记录机器学习/深度学习一些知识点的简单总结。
-
-### 11. [algo](algo)
-
-该文件夹内记录leetcode最热门的100道算法题，部分解题思路搬运自leetcode题解。
