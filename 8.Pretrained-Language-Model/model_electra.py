@@ -57,11 +57,10 @@ class Electra(nn.Module):
         disc_input[pred_indices] = sampled.detach()
         #generate discriminator labels, with replaced as True and original as False
         disc_labels = (original_input_ids != disc_input).float().detach()
+        #TODO 将disc_input变为[a,a,b,b,...,]形式作为输入传入discriminator，计算simcse_loss；bceloss部分，pad的损失不计入在内，参考bert-mrc
         disc_logits, pooler = self.discriminator(input_ids=disc_input, attention_mask=attention_mask)
         disc_loss_fct = BCEWithLogitsLoss()
-        #TODO pad部分的损失不计入在内，参考bert-mrc
         disc_loss = disc_loss_fct(disc_logits, disc_labels)
-        #TODO 传入original_input_ids
         #simcse_loss = self.simcse_unsup_loss(pooler)
         #total loss
         loss = self.gen_weight * masked_lm_loss + self.disc_weight * disc_loss
