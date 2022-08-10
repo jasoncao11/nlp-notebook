@@ -15,6 +15,7 @@
 ![glove7](../images/glove7.png)
 
 ### 附SVD及应用
+SVD分解将任意矩阵分解成一个正交矩阵和一个对角矩阵以及另一个正交矩阵的乘积。
 ![glove8](../images/svd1.png)
 ![glove9](../images/svd2.png)
 ![glove10](../images/svd3.png)
