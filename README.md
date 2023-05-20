@@ -46,6 +46,7 @@ transformers 3.0.2
 - 3-1. [Bert-MRC](3-1.Bert-MRC)
 - 3-2. [Bert-CRF](3-2.Bert-CRF)
 - 3-3. [Bert-Label-Semantics](3-3.Bert-Label-Semantics)
+- 3-4. [Bert-MLM](3-4.Bert-MLM)
 
 ### 4. 文本摘要生成
 
